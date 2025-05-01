@@ -10,12 +10,10 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 		      height : 7 //Used to position the "Or" in the combined block.
 		    }, 
 		    media : [ //Stimuli content as PIP's media objects
-    		    	{image : 'black1.jpg'}, 
-    			{image : 'black2.jpg'}, 
-    			{image : 'black3.jpg'}, 
-    			{image : 'black4.jpg'}, 
-    			{image : 'black5.jpg'}, 
-    			{image : 'black6.jpg'}
+    		    	{image : 'blackcat.png'}, 
+    			{image : 'brokenmirror.png'}, 
+    			{image : 'crossedfingers.png'}, 
+    			{image : 'ladder.png'}
 		    ], 
 		    //Stimulus css (style)
 		    css : {color:'#31b404','font-size':'3em'}
@@ -61,7 +59,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 			},
 
   base_url : {//Where are your images at?
-    image : 'https://baranan.github.io/minno-tasks/images/'
+    image : 'https://github.com/lizdahanantebi/liz.github.io/tree/main/Qualtrics'
   }}
   );
   });
