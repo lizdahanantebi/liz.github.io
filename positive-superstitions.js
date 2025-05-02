@@ -55,7 +55,27 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.3.0/stiat/q
         },
 
         base_url : {
-            image : 'https://lizdahanantebi.github.io/images/'
-        }
+            image : 'https://lizdahanantebi.github.io/liz.github.io/images/'
+        },
+
+        isQualtrics : true,
+
+        blocks : [
+            {
+                blockType: 'practice',
+                attribute1: 'Positive',
+                attribute2: 'Negative',
+                nTrials: 20
+            },
+            {
+                blockType: 'test',
+                attribute1: 'Positive',
+                attribute2: 'Negative',
+                category: 'Positive Superstitions',
+                nMiniBlocks: 5,
+                nTrialsPerMiniBlock: 20,
+                nPracticeBlock: 1
+            }
+        ]
     });
 });
