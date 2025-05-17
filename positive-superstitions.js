@@ -54,7 +54,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
                 {word: 'Sunrise'}
 			], 
 			//Can change color and size of the targets here.
-			css : {color:'#31b404','font-size':'3em'}
+			css : {color:'#31b404','font-size':'3em', 'max-width': '150px', 'max-height': '150px', 'border': '2px solid black'}
 			},
   base_url : {//Where are your images at?
     image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
