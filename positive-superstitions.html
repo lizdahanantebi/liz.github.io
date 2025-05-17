@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Positive Superstitions SC-IAT</title>
+  <script src="https://cdn.jsdelivr.net/gh/minnojs/minno-quest@0.3/dist/pi-minno.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/minnojs/minno-quest@0.3/dist/main.css" />
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; width: 100%; }
+    #canvas { height: 100vh; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="canvas"></div>
+  
+  <script>
+    window.onload = function() {
+      var canvas = document.getElementById('canvas');
+      minnoJS(canvas, 'positive-superstitions.js');
+      
+      // כשהמבחן מסתיים, פשוט סוגר את החלון וחוזר לסקר
+      minnoJS.onEnd = function() {
+        // מציג הודעה למשתמש
+        alert("Thank you! You have completed the task. Please close this window and return to the survey.");
+      };
+    };
+  </script>
+</body>
+</html>
