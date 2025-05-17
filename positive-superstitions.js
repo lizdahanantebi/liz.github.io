@@ -10,12 +10,12 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				height : 7 //Used to position the "Or" in the combined block.
 			}, 
 			media : [ //Stimuli content as PIP's media objects
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_shootingstar.png" width="120" height="120" style="border:2px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_penny.png" width="120" height="120" style="border:2px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_crossedfingers.png" width="120" height="120" style="border:2px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_clover.png" width="120" height="120" style="border:2px solid black;">'},
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_dice.png" width="120" height="120" style="border:2px solid black;">'},
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_clothes.png" width="120" height="120" style="border:2px solid black;">'}
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_shootingstar.png" width="200" height="200" style="border:3px solid black;">'}, 
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_penny.png" width="200" height="200" style="border:3px solid black;">'}, 
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_crossedfingers.png" width="200" height="200" style="border:3px solid black;">'}, 
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_clover.png" width="200" height="200" style="border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_dice.png" width="200" height="200" style="border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_clothes.png" width="200" height="200" style="border:3px solid black;">'}
 			], 
 			//Stimulus css (style)
 			css : {color:'#31b404','font-size':'3em'}
