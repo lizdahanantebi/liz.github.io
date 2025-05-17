@@ -10,15 +10,15 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				height : 7 //Used to position the "Or" in the combined block.
 			}, 
 			media : [ //Stimuli content as PIP's media objects
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_shootingstar.png" width="200" height="200" style="border:3px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_penny.png" width="200" height="200" style="border:3px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_crossedfingers.png" width="200" height="200" style="border:3px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_clover.png" width="200" height="200" style="border:3px solid black;">'},
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_dice.png" width="200" height="200" style="border:3px solid black;">'},
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_clothes.png" width="200" height="200" style="border:3px solid black;">'}
+				{image : 'P_shootingstar.png'}, 
+				{image : 'P_penny.png'}, 
+				{image : 'P_crossedfingers.png'}, 
+				{image : 'P_clover.png'},
+				{image : 'P_dice.png'},
+				{image : 'P_clothes.png'}
 			], 
 			//Stimulus css (style)
-			css : {color:'#31b404','font-size':'3em'}
+			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},	
 		attribute1 : 
 		{
