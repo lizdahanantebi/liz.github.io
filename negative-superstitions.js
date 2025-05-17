@@ -10,15 +10,15 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				height : 7 //Used to position the "Or" in the combined block.
 			}, 
 			media : [ //Stimuli content as PIP's media objects
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_blackcat.png" width="80" height="80" style="border:2px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_brokenmirror.png" width="80" height="80" style="border:2px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_friday.png" width="80" height="80" style="border:2px solid black;">'}, 
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_knockonwood.png" width="80" height="80" style="border:2px solid black;">'},
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_ladder.png" width="80" height="80" style="border:2px solid black;">'},
-				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_umbrella.png" width="80" height="80" style="border:2px solid black;">'}
+				{image : 'N_blackcat.png'}, 
+				{image : 'N_brokenmirror.png'}, 
+				{image : 'N_friday.png'}, 
+				{image : 'N_knockonwood.png'},
+				{image : 'N_ladder.png'},
+				{image : 'N_umbrella.png'}
 			], 
 			//Stimulus css (style)
-			css : {color:'#31b404','font-size':'3em'}
+			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},	
 		attribute1 : 
 		{
