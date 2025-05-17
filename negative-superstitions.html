@@ -11,16 +11,53 @@
 </head>
 <body>
   <div id="canvas"></div>
+  <div style="display:none">
+    <form id="hidden-form" action="#" method="get">
+      <textarea id="hidden-data" name="hidden-data" rows="10" cols="80"></textarea>
+    </form>
+  </div>
   
   <script>
     window.onload = function() {
       var canvas = document.getElementById('canvas');
+      
+      // Run the ST-IAT
       minnoJS(canvas, 'negative-superstitions.js');
       
-      // כשהמבחן מסתיים, פשוט סוגר את החלון וחוזר לסקר
+      // Save data to hidden form and to localStorage
+      minnoJS.logger = function(data) {
+        // Save to hidden form for Qualtrics
+        document.getElementById('hidden-data').value = data;
+        
+        // Also save to localStorage as backup
+        try {
+          localStorage.setItem('stiat_negative_data', data);
+          console.log('Data saved to localStorage');
+        } catch (e) {
+          console.error('Failed to save data to localStorage', e);
+        }
+        
+        // Log data to console for debugging
+        console.log('Data logged:', data);
+      };
+      
+      // When the test ends, go back to Qualtrics
       minnoJS.onEnd = function() {
-        // מציג הודעה למשתמש
-        alert("Thank you! You have completed the task. Please close this window and return to the survey.");
+        // Try to send data back to Qualtrics
+        var hiddenData = document.getElementById('hidden-data').value;
+        
+        // If this is in an iframe from Qualtrics
+        try {
+          window.parent.postMessage({
+            name: 'stiatComplete',
+            data: hiddenData
+          }, '*');
+        } catch (e) {
+          console.error('Failed to post message to parent', e);
+        }
+        
+        // Display message and return to survey
+        alert("Thank you! You have completed the task. The data has been saved. Please close this window and return to the survey.");
       };
     };
   </script>
