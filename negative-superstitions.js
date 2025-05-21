@@ -1,6 +1,8 @@
 define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qualtrics/qstiat6.js'], function(APIConstructor, stiatExtension){
 	
 	var API = new APIConstructor();
+	var categoryStyle = {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'};
+	
 	return stiatExtension({
 		category : { 
 			name : 'Superstitions', //Changed from 'Negative Superstitions' to just 'Superstitions'
@@ -18,7 +20,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image : 'N_umbrella.png'}
 			], 
 			//Stimulus css (style)
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : categoryStyle
 		},	
 		attribute1 : 
 		{
@@ -35,8 +37,8 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image: 'N_sad.png'},
 				{image: 'N_fire.png'} // Fire symbol replacing warning
 			], 
-			//Using the SAME CSS as for the category images
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			//Using exactly the same CSS by referencing the same variable
+			css : categoryStyle
 		},
 		attribute2 : 
 		{
@@ -53,8 +55,8 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image: 'P_smile.png'},
 				{image: 'P_sun.png'}
 			], 
-			//Using the SAME CSS as for the category images
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			//Using exactly the same CSS by referencing the same variable
+			css : categoryStyle
 		},
 		base_url : {//Where are your images at?
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
