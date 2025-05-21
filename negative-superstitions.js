@@ -35,8 +35,8 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image: 'N_sad.png'},
 				{image: 'N_fire.png'} // Fire symbol replacing warning
 			], 
-			//Adjusted CSS for images
-			css : {color:'#31b404', 'max-width':'100px', 'max-height':'100px', width:'100px', height:'100px'}
+			//Using the SAME CSS as for the category images
+			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},
 		attribute2 : 
 		{
@@ -53,8 +53,8 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image: 'P_smile.png'},
 				{image: 'P_sun.png'}
 			], 
-			//Adjusted CSS for images
-			css : {color:'#31b404', 'max-width':'100px', 'max-height':'100px', width:'100px', height:'100px'}
+			//Using the SAME CSS as for the category images
+			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},
 		base_url : {//Where are your images at?
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
