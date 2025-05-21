@@ -1,8 +1,6 @@
 define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qualtrics/qstiat6.js'], function(APIConstructor, stiatExtension){
 	
 	var API = new APIConstructor();
-	var categoryStyle = {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'};
-	
 	return stiatExtension({
 		category : { 
 			name : 'Superstitions', //Changed from 'Negative Superstitions' to just 'Superstitions'
@@ -20,7 +18,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image : 'N_umbrella.png'}
 			], 
 			//Stimulus css (style)
-			css : categoryStyle
+			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},	
 		attribute1 : 
 		{
@@ -30,15 +28,15 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 				height : 7 //Used to position the "Or" in the combined block.
 			}, 
-			media : [ //Stimuli - replacing words with images
-				{image: 'N_scull.png'},
-				{image: 'N_brokenheart.png'},
-				{image: 'N_unlike.png'},
-				{image: 'N_sad.png'},
-				{image: 'N_fire.png'} // Fire symbol replacing warning
+			media : [ //Stimuli - using HTML instead of plain images
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_scull.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_brokenheart.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_unlike.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_sad.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/N_fire.png" style="width:200px; height:200px; border:3px solid black;">'}
 			], 
-			//Using exactly the same CSS by referencing the same variable
-			css : categoryStyle
+			//No CSS needed since we're using HTML with inline styles
+			css : {}
 		},
 		attribute2 : 
 		{
@@ -48,15 +46,15 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 				height : 7 //Used to position the "Or" in the combined block.
 			}, 
-			media : [ //Stimuli - replacing words with images
-				{image: 'P_gift.png'},
-				{image: 'P_heart.png'},
-				{image: 'P_like.png'},
-				{image: 'P_smile.png'},
-				{image: 'P_sun.png'}
+			media : [ //Stimuli - using HTML instead of plain images
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_gift.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_heart.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_like.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_smile.png" style="width:200px; height:200px; border:3px solid black;">'},
+				{html: '<img src="https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/P_sun.png" style="width:200px; height:200px; border:3px solid black;">'}
 			], 
-			//Using exactly the same CSS by referencing the same variable
-			css : categoryStyle
+			//No CSS needed since we're using HTML with inline styles
+			css : {}
 		},
 		base_url : {//Where are your images at?
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
