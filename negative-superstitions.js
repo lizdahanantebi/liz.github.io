@@ -28,15 +28,15 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 				height : 7 //Used to position the "Or" in the combined block.
 			}, 
-			media : [ //Stimuli
-				{word: 'Awkward'},
-				{word: 'Hate'},
-				{word: 'Failure'},
-				{word: 'Slum'},
-				{word: 'Stink'}
+			media : [ //Stimuli - עכשיו משתמשים בתמונות במקום מילים
+				{image: 'N_skull.png'},
+				{image: 'N_brokenheart.png'},
+				{image: 'N_thumbsdown.png'},
+				{image: 'N_sad.png'},
+				{image: 'N_fire.png'} // סמל האש החדש במקום סמל האזהרה
 			], 
-			//Can change color and size of the targets here.
-			css : {color:'#31b404','font-size':'3em'}
+			//שינוי ה-CSS להתאים לתמונות
+			css : {color:'#31b404', 'max-width':'100px', 'max-height':'100px', width:'100px', height:'100px'}
 		},
 		attribute2 : 
 		{
@@ -46,15 +46,15 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 				height : 7 //Used to position the "Or" in the combined block.
 			}, 
-			media : [ //Stimuli
-				{word: 'Brilliant'},
-				{word: 'Diamond'},
-				{word: 'Joy'},
-				{word: 'Truth'},
-				{word: 'Sunrise'}
+			media : [ //Stimuli - עכשיו משתמשים בתמונות במקום מילים
+				{image: 'P_gift.png'},
+				{image: 'P_heart.png'},
+				{image: 'P_thumbsup.png'},
+				{image: 'P_smiley.png'},
+				{image: 'P_sun.png'}
 			], 
-			//Can change color and size of the targets here.
-			css : {color:'#31b404','font-size':'3em'}
+			//שינוי ה-CSS להתאים לתמונות
+			css : {color:'#31b404', 'max-width':'100px', 'max-height':'100px', width:'100px', height:'100px'}
 		},
 		base_url : {//Where are your images at?
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
