@@ -3,13 +3,13 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 	var API = new APIConstructor();
 	return stiatExtension({
 		category : { 
-			name : 'Negative Superstitions', //Will appear in the data.
+			name : 'Negative Superstitions', 
 			title : {
-				media : {word : 'Negative Superstitions'}, //Name of the category presented in the task.
-				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
-				height : 7 //Used to position the "Or" in the combined block.
+				media : {word : 'Negative Superstitions'}, 
+				css : {color:'#31b404','font-size':'2em'}, 
+				height : 7 
 			}, 
-			media : [ //Stimuli content as PIP's media objects
+			media : [ 
 				{image : 'N_blackcat.png'}, 
 				{image : 'N_brokenmirror.png'}, 
 				{image : 'N_friday.png'}, 
@@ -17,46 +17,43 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image : 'N_ladder.png'},
 				{image : 'N_umbrella.png'}
 			], 
-			//Stimulus css (style)
 			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},	
 		attribute1 : 
 		{
-			name : 'Bad', //Attribute label
+			name : 'Bad', 
 			title : {
-				media : {word : 'Bad'}, //Name of the category presented in the task.
-				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
-				height : 7 //Used to position the "Or" in the combined block.
+				media : {word : 'Bad'}, 
+				css : {color:'#31b404','font-size':'2em'}, 
+				height : 7 
 			}, 
-			media : [ //Stimuli
+			media : [ 
 				{word: 'Awkward'},
 				{word: 'Hate'},
 				{word: 'Failure'},
 				{word: 'Slum'},
 				{word: 'Stink'}
 			], 
-			//Can change color and size of the targets here.
 			css : {color:'#31b404','font-size':'3em'}
 		},
 		attribute2 : 
 		{
-			name : 'Good', //Attribute label
+			name : 'Good', 
 			title : {
-				media : {word : 'Good'}, //Name of the category presented in the task.
-				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
-				height : 7 //Used to position the "Or" in the combined block.
+				media : {word : 'Good'}, 
+				css : {color:'#31b404','font-size':'2em'}, 
+				height : 7 
 			}, 
-			media : [ //Stimuli
+			media : [ 
 				{word: 'Brilliant'},
 				{word: 'Diamond'},
 				{word: 'Joy'},
 				{word: 'Truth'},
 				{word: 'Sunrise'}
 			], 
-			//Can change color and size of the targets here.
 			css : {color:'#31b404','font-size':'3em'}
 		},
-		base_url : {//Where are your images at?
+		base_url : {
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
 		}
 	});
