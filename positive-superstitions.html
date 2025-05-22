@@ -1,60 +1,74 @@
-define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qualtrics/qstiat6.js'], function(APIConstructor, stiatExtension){
-	
-	var API = new APIConstructor();
-	return stiatExtension({
-		category : { 
-			name : 'Superstitions',
-			title : {
-				media : {word : 'Superstitions'},
-				css : {color:'#31b404','font-size':'2em'},
-				height : 7
-			}, 
-			media : [
-				{image : 'P_shootingstar.png'}, 
-				{image : 'P_penny.png'}, 
-				{image : 'P_crossedfingers.png'}, 
-				{image : 'P_clover.png'},
-				{image : 'P_dice.png'},
-				{image : 'P_clothes.png'}
-			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
-		},	
-		attribute1 : 
-		{
-			name : 'Bad',
-			title : {
-				media : {word : 'Bad'},
-				css : {color:'#31b404','font-size':'2em'},
-				height : 7
-			}, 
-			media : [
-				{image: 'N_scull.png'},
-				{image: 'N_brokenheart.png'},
-				{image: 'N_unlike.png'},
-				{image: 'N_sad.png'},
-				{image: 'N_fire.png'}
-			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
-		},
-		attribute2 : 
-		{
-			name : 'Good',
-			title : {
-				media : {word : 'Good'},
-				css : {color:'#31b404','font-size':'2em'},
-				height : 7
-			}, 
-			media : [
-				{image: 'P_gift.png'},
-				{image: 'P_heart.png'},
-				{image: 'P_like.png'},
-				{image: 'P_smile.png'},
-				{image: 'P_sun.png'}
-			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
-		},
-		base_url : {
-			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
-		}
-	});
-});
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SC-IAT Positive Superstitions</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #minno-container {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="minno-container"></div>
+    
+    <script>
+        // Create script tag and wait for it to load
+        var scriptTag = document.createElement('script');
+        scriptTag.src = 'https://cdn.jsdelivr.net/gh/minnojs/minno-quest@0.3/dist/pi-minno.js';
+        scriptTag.onload = onLoad;
+        scriptTag.onreadystatechange = onLoad;
+        document.head.appendChild(scriptTag);
+        
+        function onLoad() {
+            // Only run after MinnoJS is loaded
+            if (typeof minnoJS !== 'undefined') {
+                console.log('MinnoJS loaded successfully');
+                
+                // Load the SC-IAT task
+                minnoJS(document.getElementById('minno-container'), 'https://lizdahanantebi.github.io/liz.github.io/positive-superstitions.js');
+                
+                // Set up logger to capture data
+                minnoJS.logger = function(value) {
+                    console.log('Data received from task:', value);
+                    
+                    // Try to send to parent window (Qualtrics)
+                    try {
+                        window.parent.postMessage({
+                            name: 'stiatComplete',
+                            data: value
+                        }, '*');
+                        console.log('Data sent to parent window');
+                    } catch(e) {
+                        console.error('Error sending to parent:', e);
+                    }
+                    
+                    // Save to localStorage as backup
+                    try {
+                        localStorage.setItem('stiat_positive_data', value);
+                        console.log('Data saved to localStorage');
+                    } catch(e) {
+                        console.error('Error saving to localStorage:', e);
+                    }
+                };
+                
+                // Set up onEnd function
+                minnoJS.onEnd = function() {
+                    console.log('Task completed');
+                    setTimeout(function() {
+                        alert('Task completed! Please return to the survey.');
+                    }, 500);
+                };
+            } else {
+                console.error('MinnoJS failed to load');
+            }
+        }
+    </script>
+</body>
+</html>
