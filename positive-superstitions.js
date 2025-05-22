@@ -2,29 +2,57 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 	
 	var API = new APIConstructor();
 	
-	// Add logger for Qualtrics
+	// Add logger and onEnd handlers for data collection
 	API.addSettings('logger', {
 		onRow: function(logName, log, settings, ctx){
 			if (!ctx.logs) ctx.logs = [];
 			ctx.logs.push(log);
 		},
 		onEnd: function(name, settings, ctx){
-			return ctx.logs;
-		},
-		serialize: function(name, logs, settings){
-			return JSON.stringify(logs);
-		},
-		send: function(name, serialized, settings, ctx){
-			if (window.minnoJS && window.minnoJS.logger) {
-				window.minnoJS.logger(serialized);
+			var csvData = 'block,trial,latency,correct,stimulus,category\n';
+			if (ctx.logs) {
+				csvData += ctx.logs.map(function(log) {
+					return [
+						log.block || '',
+						log.trial || '',
+						log.latency || '',
+						log.correct || '',
+						log.stimulus || '',
+						log.category || ''
+					].join(',');
+				}).join('\n');
 			}
+			
+			console.log('Data collected:', csvData);
+			
+			// Save to localStorage
+			try {
+				localStorage.setItem('stiat_positive_data', csvData);
+				console.log('Data saved to localStorage');
+			} catch(e) {
+				console.error('Error saving to localStorage:', e);
+			}
+			
+			// Send to parent window (Qualtrics)
+			try {
+				window.parent.postMessage({
+					name: 'stiatComplete',
+					data: csvData
+				}, '*');
+				console.log('Data sent to parent window');
+			} catch(e) {
+				console.error('Error sending to parent:', e);
+			}
+			
+			return csvData;
 		}
 	});
-
+	
 	API.addSettings('onEnd', function() {
-		if (window.minnoJS && window.minnoJS.onEnd) {
-			window.minnoJS.onEnd();
-		}
+		console.log('Task completed');
+		setTimeout(function() {
+			alert('Task completed! Please return to the survey.');
+		}, 1000);
 	});
 	
 	return stiatExtension({
