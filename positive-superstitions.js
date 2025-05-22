@@ -60,4 +60,36 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
 		}
 	});
+	base_url : {//Where are your images at?
+			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
+		}
+	});
+
+	// Add logger for Qualtrics - הוסף את זה כאן
+	API.addSettings('logger', {
+		onRow: function(logName, log, settings, ctx){
+			if (!ctx.logs) ctx.logs = [];
+			ctx.logs.push(log);
+		},
+		onEnd: function(name, settings, ctx){
+			return ctx.logs;
+		},
+		serialize: function(name, logs, settings){
+			return JSON.stringify(logs);
+		},
+		send: function(name, serialized, settings, ctx){
+			if (window.minnoJS && window.minnoJS.logger) {
+				window.minnoJS.logger(serialized);
+			}
+		}
+	});
+
+	API.addSettings('onEnd', function() {
+		if (window.minnoJS && window.minnoJS.onEnd) {
+			window.minnoJS.onEnd();
+		}
+	});
+
+	return API.script;
+});
 });
