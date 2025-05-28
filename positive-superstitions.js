@@ -51,7 +51,8 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 	API.addSettings('onEnd', function() {
 		console.log('Task completed');
 		setTimeout(function() {
-			alert('Task completed! Please return to the survey.');
+			alert('Task 1 completed! Moving to Task 2...');
+			window.close();
 		}, 1000);
 	});
 	
