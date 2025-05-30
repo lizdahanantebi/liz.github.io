@@ -53,7 +53,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 			name : 'Superstitions',
 			title : {
 				media : {word : 'Superstitions'},
-				css : {color:'#31b404','font-size':'2em'},
+				css : {color:'#007acc','font-size':'2em'},
 				height : 7
 			}, 
 			media : [
@@ -64,14 +64,14 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image : 'P_dice.png'},
 				{image : 'P_clothes.png'}
 			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#007acc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},	
 		attribute1 : 
 		{
 			name : 'Bad',
 			title : {
 				media : {word : 'Bad'},
-				css : {color:'#31b404','font-size':'2em'},
+				css : {color:'#cc0000','font-size':'2em'},
 				height : 7
 			}, 
 			media : [
@@ -81,7 +81,7 @@ define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qua
 				{image: 'N_sad.png'},
 				{image: 'N_fire.png'}
 			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#cc0000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},
 		attribute2 : 
 		{
