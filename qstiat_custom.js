@@ -465,7 +465,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}],			
 			// this stimulus used for giving feedback, in this case only the error notification
 			error : [{
-				data:{handle:'error'}, location: {top: 72}, css:{color:'red','font-size':'2.5em'}, media: {word:'X'}, nolog:true
+				data:{handle:'error'}, location: {top: 68}, css:{color:'red','font-size':'2.5em'}, media: {word:'X'}, nolog:true
 			}],
 			// הוספת גירוי timeout
 			timeoutStim : [{
