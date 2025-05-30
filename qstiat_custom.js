@@ -53,8 +53,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					{word: 'Poison'},
 					{word: 'Grief'}
 				], 
-				//Can change color and size of the targets here. הוספתי filter לנסיון
-				css : {color:'#31b404','font-size':'2em', 'filter':'invert(1)'}
+				//Can change color and size of the targets here.
+				css : {color:'#31b404','font-size':'2em'}
 			},
 			attribute2 : 
 			{
@@ -82,9 +82,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					block : 1, //The block variable is not used later, but could help the user. 
 					//In each block, we can include a number of mini-blocks, to reduce repetition of same group/response.
 					miniBlocks : 1, //Set to 1 if don't need mini blocks. 0 will break the task.
-					singleAttTrials : 12, //Number of trials of the attribute that does not share key with the category (in a mini block).
-					sharedAttTrials : 12, //Number of trials of the attribute that shares key with the category (in a mini block).
-					categoryTrials : 0 // No category trials - זה תרגול ללא אמונות טפלות, רק מילים
+					singleAttTrials : 8, //Number of trials of the attribute that does not share key with the category (in a mini block).
+					sharedAttTrials : 8, //Number of trials of the attribute that shares key with the category (in a mini block).
+					categoryTrials : 8 // Number of trials of the category (in a mini-block) - סה"כ 24 חזרות
 					//Note: if no category trials, then attribute1, the one on the left, is considered the single attribute.
 				}, 
 				{ 
@@ -99,9 +99,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					instHTML : '', 
 					block : 3, 
 					miniBlocks : 1, // מיני-בלוק אחד
-					singleAttTrials : 12, // 12 חזרות
-					sharedAttTrials : 12, // 12 חזרות
-					categoryTrials : 0   // No category trials - זה תרגול ללא אמונות טפלות, רק מילים
+					singleAttTrials : 8, // 8 חזרות
+					sharedAttTrials : 8, // 8 חזרות
+					categoryTrials : 8   // 8 חזרות, סה"כ 24 חזרות
 				}, 
 				{ 
 					instHTML : '', 
@@ -279,7 +279,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				{
 					conditions: [{type:'inputEquals',value:'timeout'}],
 					actions: [
-						{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "אנא הגיבו מהר יותר"
+						{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "Please response faster"
 						{type:'setTrialAttr', setter:{score:1}}, // נספר כטעות
 						{type:'setInput',input:{handle:'timeoutEnd', on:'timeout',duration:500}} // הודעה למשך 500ms
 					]
@@ -469,7 +469,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}],
 			// הוספת גירוי timeout
 			timeoutStim : [{
-				data:{handle:'timeoutStim'}, location: {top: 70}, css:{color:'red','font-size':'2em'}, media: {word:'Please respond faster'}, nolog:true
+				data:{handle:'timeoutStim'}, location: {top: 70}, css:{color:'red','font-size':'2em'}, media: {word:'Please response faster'}, nolog:true
 			}],
 			dummyForLog : [{
 				data:{name:'dummyForLog', alias:'dummyForLog'}, 
