@@ -140,7 +140,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			orText : 'or', 
 			orCss : {'font-size':'1.8em', color:'#000000'},
 
-			//Will appear at the bottom of the screen during trials.
+			//Will appear at the bottom of the screen during instruction screens only.
 			remindErrorText : '<p align="center" style="font-size:"0.6em"; font-family:arial">' +
 			'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' +
 			'Press the other key to continue.<p/>',
@@ -157,7 +157,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'<font color="#000000"><u>Part blockNum of nBlocks</u><br/><br/></p>' + 
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 				'Put a left finger on the <b>E</b> key for items that belong to the category ' + 
-				'<font color="#cc0000">attribute1</font>.<br/>' + 
+				'<font color="#31b404">attribute1</font>.<br/>' + 
 				'Put a right finger on the <b>I</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute2</font>.<br/>' + 
 				'Items will appear one at a time.<br/><br/>' + 
@@ -168,10 +168,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' + 
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 				'Put a left finger on the <b>E</b> key for items that belong to the category ' + 
-				'<font color="#cc0000">attribute1</font>.<br/>' + 
+				'<font color="#31b404">attribute1</font>.<br/>' + 
 				'Put a right finger on the <b>I</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute2</font> ' +
-				'and for items that belong to the category <font color="#007acc">thecategory</font>.<br/>' + 
+				'and for items that belong to the category <font color="#000000"><b>thecategory</b></font>.<br/>' + 
 				'Items will appear one at a time.<br/><br/>' + 
 				'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' + 
 				'Press the other key to continue.<br/><br/>' + 
@@ -180,8 +180,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' + 
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 				'Put a left finger on the <b>E</b> key for items that belong to the category ' + 
-				'<font color="#cc0000">attribute1</font> ' +
-				'and for items that belong to the category <font color="#007acc">thecategory</font>.<br/>' + 
+				'<font color="#31b404">attribute1</font> ' +
+				'and for items that belong to the category <font color="#000000"><b>thecategory</b></font>.<br/>' + 
 				'Put a right finger on the <b>I</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute2</font>.<br/>' + 
 				'Items will appear one at a time.<br/><br/>' + 
@@ -465,11 +465,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}],			
 			// this stimulus used for giving feedback, in this case only the error notification
 			error : [{
-				data:{handle:'error'}, location: {top: 70}, css:{color:'red','font-size':'4em'}, media: {word:'X'}, nolog:true
+				data:{handle:'error'}, location: {top: 60}, css:{color:'red','font-size':'4em'}, media: {word:'X'}, nolog:true
 			}],
 			// הוספת גירוי timeout
 			timeoutStim : [{
-				data:{handle:'timeoutStim'}, location: {top: 70}, css:{color:'red','font-size':'2em'}, media: {word:'Please response faster'}, nolog:true
+				data:{handle:'timeoutStim'}, location: {top: 80}, css:{color:'red','font-size':'2em'}, media: {word:'Please response faster'}, nolog:true
 			}],
 			dummyForLog : [{
 				data:{name:'dummyForLog', alias:'dummyForLog'}, 
@@ -637,7 +637,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 							[{
 								inherit : singleAttribute, 
 								data : {condition : currentCondition, block : iBlock}, 
-								layout : blockLayout.concat(reminderStimulus)
+								layout : blockLayout
 							}]
 						}, 
 						{//The key-shared attribute trials
@@ -647,7 +647,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 							[{
 								inherit : catAttribute, 
 								data : {condition : currentCondition, block : iBlock}, 
-								layout : blockLayout.concat(reminderStimulus)
+								layout : blockLayout
 							}]
 						} 
 					]
@@ -662,7 +662,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 							[{
 								inherit : catSide, 
 								data : {condition : currentCondition, block : iBlock}, 
-								layout : blockLayout.concat(reminderStimulus)
+								layout : blockLayout
 							}]
 						}
 					);
