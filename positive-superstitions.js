@@ -49,11 +49,21 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 	});
 	
 	return stiatExtension({
+		// רקע שחור
+		canvas : {
+			maxWidth: 725,
+			proportions : 0.7,
+			background: '#000000',
+			borderWidth: 5,
+			canvasBackground: '#000000',
+			borderColor: '#ffffff'
+		},
+		
 		category : { 
 			name : 'Superstitions',
 			title : {
 				media : {word : 'Superstitions'},
-				css : {color:'#007acc','font-size':'2em'},
+				css : {color:'#ffffff','font-size':'2em'}, // לבן על רקע שחור
 				height : 7
 			}, 
 			media : [
@@ -64,14 +74,14 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				{image : 'P_dice.png'},
 				{image : 'P_clothes.png'}
 			], 
-			css : {color:'#007acc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#ffffff','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid white', 'filter':'invert(1)'}
 		},	
 		attribute1 : 
 		{
 			name : 'Bad',
 			title : {
 				media : {word : 'Bad'},
-				css : {color:'#cc0000','font-size':'2em'},
+				css : {color:'#31b404','font-size':'2em'}, // ירוק
 				height : 7
 			}, 
 			media : [
@@ -81,14 +91,14 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				{image: 'N_sad.png'},
 				{image: 'N_fire.png'}
 			], 
-			css : {color:'#cc0000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#ffffff','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid white', 'filter':'invert(1)'}
 		},
 		attribute2 : 
 		{
 			name : 'Good',
 			title : {
 				media : {word : 'Good'},
-				css : {color:'#31b404','font-size':'2em'},
+				css : {color:'#31b404','font-size':'2em'}, // ירוק
 				height : 7
 			}, 
 			media : [
@@ -98,8 +108,20 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				{image: 'P_smile.png'},
 				{image: 'P_sun.png'}
 			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#ffffff','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid white', 'filter':'invert(1)'}
 		},
+		
+		// הגדרות נוספות לרקע שחור
+		fontColor : '#ffffff',
+		leftKeyText : 'Press "E" for', 
+		rightKeyText : 'Press "I" for', 
+		keysCss : {'font-size':'0.8em', 'font-family':'courier', color:'#ffffff'},
+		orText : 'or', 
+		orCss : {'font-size':'1.8em', color:'#ffffff'},
+		
+		// הסרת ההודעה על הX
+		remindErrorText : '',
+		
 		base_url : {
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
 		}
