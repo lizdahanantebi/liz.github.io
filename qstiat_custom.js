@@ -279,7 +279,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				{
 					conditions: [{type:'inputEquals',value:'timeout'}],
 					actions: [
-						{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "אנא הגיבו מהר יותר"
+						{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "Please response faster"
 						{type:'setTrialAttr', setter:{score:1}}, // נספר כטעות
 						{type:'setInput',input:{handle:'timeoutEnd', on:'timeout',duration:500}} // הודעה למשך 500ms
 					]
@@ -469,7 +469,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			}],
 			// הוספת גירוי timeout
 			timeoutStim : [{
-				data:{handle:'timeoutStim'}, location: {top: 70}, css:{color:'red','font-size':'2em'}, media: {word:'אנא הגיבו מהר יותר?'}, nolog:true
+				data:{handle:'timeoutStim'}, location: {top: 70}, css:{color:'red','font-size':'2em'}, media: {word:'Please response faster'}, nolog:true
 			}],
 			dummyForLog : [{
 				data:{name:'dummyForLog', alias:'dummyForLog'}, 
