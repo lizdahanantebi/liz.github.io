@@ -97,17 +97,16 @@ define(['managerAPI',
             name: 'lastpage',
             templateUrl: 'lastpage.jst',
             title: 'End',
-            //Uncomment the following if you want to end the study here.
-            //last:true, 
+            last:true, 
             header: 'You have completed the study'
         }], 
         
         //Use if you want to redirect the participants elsewhere at the end of the study
-        redirect:
-        [{ 
-			//Replace with any URL you need to put at the end of your study, or just remove this task from the sequence below
-            type:'redirect', name:'redirecting', url: 'javascript:window.parent.jQuery("#NextButton").click();'
-        }],
+        //redirect:
+        //[{ 
+		//	//Replace with any URL you need to put at the end of your study, or just remove this task from the sequence below
+        //    type:'redirect', name:'redirecting', url: 'javascript:window.parent.jQuery("#NextButton").click();'
+        //}],
 		
 		//This task waits until the data are sent to the server.
         uploading: uploading_task({header: 'just a moment', body:'Please wait, sending data... '})
@@ -133,7 +132,7 @@ define(['managerAPI',
                         '.container {padding:5px;}',
                         '[pi-quest]::before, [pi-quest]::after {content: " ";display: table;}',
                         '[pi-quest]::after {clear: both;}',
-                        '[pi-quest] h3 { border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; padding: 10px 15px; color: inherit; font-size: 2em; margin-bottom: 20px; margin-top: 0;background-color: #d9edf7;border-color: #bce8f1;color: #31708f;}',
+                        '[pi-quest] h3 { border-bottom: 1px solid transparent; border-top-right-radius: 3px; border-top-left-radius: 3px; padding: 10px 15px; color: inherit; font-size: 2em; margin-bottom: 20px; margin-top: 0;background-color: #d9edf7;border-color: #bce8f1;color: #31708f;}',
                         '[pi-quest] .form-group > label {font-size:1.2em; font-weight:normal;}',
 
                         '[pi-quest] .btn-toolbar {margin:15px;float:none !important; text-align:center;position:relative;}',
@@ -172,8 +171,7 @@ define(['managerAPI',
         },
 
 		{inherit: 'uploading'},
-        {inherit: 'lastpage'},
-        {inherit: 'redirect'}
+        {inherit: 'lastpage'}
     ]);
 
     return API.script;
