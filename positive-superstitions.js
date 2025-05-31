@@ -33,20 +33,13 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				console.error('Error saving to localStorage:', e);
 			}
 
-			// Send to parent window (Qualtrics) and click Next
+			// Send to parent window (Qualtrics)
 			try {
 				window.parent.postMessage({
 					name: 'stiatComplete',
 					data: csvData
 				}, '*');
 				console.log('Data sent to parent window');
-
-				// Reveal and click the Next button in Qualtrics
-				const nextBtn = window.parent.document.querySelector('#NextButton');
-				if (nextBtn) {
-					nextBtn.style.display = 'block';
-					nextBtn.click();
-				}
 
 			} catch(e) {
 				console.error('Error sending to parent:', e);
