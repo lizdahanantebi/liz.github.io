@@ -756,6 +756,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		//What to do at the end of the task.
 		API.addSettings('hooks',{
 		    endTask: function(){
+		        // עצור את המבחן הנוכחי לגמרי
+		        API.stop();
+		        
 		        //Compute score
 		        var DScoreObj = scorer.computeD();
 		        //Save for the task's session.
