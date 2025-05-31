@@ -753,25 +753,26 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		}
 		//Set messages to the scorer.
 		scorer.addSettings('message',scoreMessageObject);
-
 		//What to do at the end of the task.
 		API.addSettings('hooks',{
-			endTask: function(){
-				//Compute score
-				var DScoreObj = scorer.computeD();
-				//Save for the task's session.
-				piCurrent.feedback = DScoreObj.FBMsg;
-				//Save to server
-				API.save({block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
-			}
-		});
+		    endTask: function(){
+		        //Compute score
+		        var DScoreObj = scorer.computeD();
+		        //Save for the task's session.
+		        piCurrent.feedback = DScoreObj.FBMsg;
+		        //Save to server
+		        API.save({block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+		        
+		        // מעבר לשאלה הבאה רק אחרי שהמבחן מסתיים
+		        const nextBtn = window.parent.document.querySelector('#NextButton');
+		        if (nextBtn) {
+		            nextBtn.style.display = 'block';
+		            nextBtn.click();
+		        }
+		    }
+});
 		return API.script;
 	}
-			const nextBtn = window.parent.document.querySelector('#NextButton');
-				if (nextBtn) {
-				  nextBtn.style.display = 'block';
-				  nextBtn.click();
-				}
-
+			
 	return stiatExtension;
 });
