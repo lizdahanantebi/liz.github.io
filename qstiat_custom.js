@@ -765,11 +765,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				API.save({block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 			}
 		});
-const nextBtn = window.parent.document.querySelector('#NextButton');
-if (nextBtn) {
-  nextBtn.style.display = 'block';
-  nextBtn.click();
-}
 		return API.script;
 	}
 	
