@@ -2,7 +2,6 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 	
 	var API = new APIConstructor();
 
-	// Add logger and onEnd handlers for data collection
 	API.addSettings('logger', {
 		onRow: function(logName, log, settings, ctx){
 			if (!ctx.logs) ctx.logs = [];
@@ -22,27 +21,37 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 					].join(',');
 				}).join('\n');
 			}
-			
+
 			console.log('Data collected:', csvData);
 
-			// Save to localStorage
 			try {
 				localStorage.setItem('stiat_positive_data', csvData);
-				console.log('Data saved to localStorage');
 			} catch(e) {
 				console.error('Error saving to localStorage:', e);
 			}
 
-			// Send to parent window (Qualtrics)
 			try {
 				window.parent.postMessage({
 					name: 'stiatComplete',
 					data: csvData
 				}, '*');
 				console.log('Data sent to parent window');
-
 			} catch(e) {
 				console.error('Error sending to parent:', e);
+			}
+
+			// 🔽 הקוד שלך מקונסול – עכשיו חלק מהקובץ
+			try {
+				const nextBtn = window.parent.document.querySelector('#NextButton');
+				if (nextBtn) {
+					nextBtn.style.display = 'block';
+					nextBtn.click();
+					console.log('✅ Clicked NextButton directly');
+				} else {
+					console.log('❌ NextButton not found at this time');
+				}
+			} catch (e) {
+				console.error('Error clicking NextButton:', e);
 			}
 
 			return csvData;
