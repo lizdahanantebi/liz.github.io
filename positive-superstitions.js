@@ -36,17 +36,21 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			// Send to parent window (Qualtrics)
 			try {
 			window.parent.postMessage({
-				name: 'stiatComplete',
-				data: csvData
+			name: 'stiatComplete',
+			data: csvData
 			}, '*');
 			console.log('Data sent to parent window');
 
-			// Advance to next Qualtrics question
-			window.parent.jQuery('#NextButton').click();
-
+			// Reveal and click the Next button in Qualtrics
+			const nextBtn = window.parent.document.querySelector('#NextButton');
+			if (nextBtn) {
+			    nextBtn.style.display = 'block';
+			    nextBtn.click();
+			}
+			
 			} catch(e) {
-			console.error('Error sending to parent:', e);
-		}
+			   console.error('Error sending to parent:', e);
+			}
 
 			return csvData;
 		}
