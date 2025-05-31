@@ -1,62 +1,107 @@
-define(['pipAPI', 'https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/stiat/qualtrics/qstiat6.js'], function(APIConstructor, stiatExtension){
+define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js'], function(APIConstructor, stiatExtension){
 	
 	var API = new APIConstructor();
+	
+	// Add logger and onEnd handlers for data collection
+	API.addSettings('logger', {
+		onRow: function(logName, log, settings, ctx){
+			if (!ctx.logs) ctx.logs = [];
+			ctx.logs.push(log);
+		},
+		onEnd: function(name, settings, ctx){
+			var csvData = 'block,trial,latency,correct,stimulus,category\n';
+			if (ctx.logs) {
+				csvData += ctx.logs.map(function(log) {
+					return [
+						log.block || '',
+						log.trial || '',
+						log.latency || '',
+						log.correct || '',
+						log.stimulus || '',
+						log.category || ''
+					].join(',');
+				}).join('\n');
+			}
+			
+			console.log('Data collected:', csvData);
+			
+			// Save to localStorage
+			try {
+				localStorage.setItem('stiat_negative_data', csvData);
+				console.log('Data saved to localStorage');
+			} catch(e) {
+				console.error('Error saving to localStorage:', e);
+			}
+			
+			// Send to parent window (Qualtrics)
+			try {
+				window.parent.postMessage({
+					name: 'stiatComplete',
+					data: csvData
+				}, '*');
+				console.log('Data sent to parent window');
+			} catch(e) {
+				console.error('Error sending to parent:', e);
+			}
+			
+			return csvData;
+		}
+	});
+	
 	return stiatExtension({
 		category : { 
-			name : 'Superstitions', //Changed from 'Negative Superstitions' to just 'Superstitions'
+			name : 'Superstitions',
 			title : {
-				media : {word : 'Superstitions'}, //Name of the category presented in the task.
-				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
-				height : 7 //Used to position the "Or" in the combined block.
+				media : {word : 'Superstitions'},
+				css : {color:'#000000','font-size':'2em'}, // שחור
+				height : 7
 			}, 
-			media : [ //Stimuli content as PIP's media objects - these remain the same
+			media : [
 				{image : 'N_blackcat.png'}, 
 				{image : 'N_brokenmirror.png'}, 
-				{image : 'N_friday.png'}, 
-				{image : 'N_knockonwood.png'},
-				{image : 'N_ladder.png'},
-				{image : 'N_umbrella.png'}
+				{image : 'N_ladder.png'}, 
+				{image : 'N_friday.png'},
+				{image : 'N_umbrella.png'},
+				{image : 'N_knockonwood.png'}
 			], 
-			//Stimulus css (style)
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#000000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},	
 		attribute1 : 
 		{
-			name : 'Bad', //Attribute label
+			name : 'Bad',
 			title : {
-				media : {word : 'Bad'}, //Name of the category presented in the task.
-				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
-				height : 7 //Used to position the "Or" in the combined block.
+				media : {word : 'Bad'},
+				css : {color:'#31b404','font-size':'2em'}, // ירוק
+				height : 7
 			}, 
-			media : [ //Stimuli - replacing words with images
+			media : [
 				{image: 'N_scull.png'},
 				{image: 'N_brokenheart.png'},
 				{image: 'N_unlike.png'},
 				{image: 'N_sad.png'},
-				{image: 'N_fire.png'} // Fire symbol replacing warning
+				{image: 'N_fire.png'}
 			], 
-			//EXACTLY the same CSS as for the category images
 			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},
 		attribute2 : 
 		{
-			name : 'Good', //Attribute label
+			name : 'Good',
 			title : {
-				media : {word : 'Good'}, //Name of the category presented in the task.
-				css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
-				height : 7 //Used to position the "Or" in the combined block.
+				media : {word : 'Good'},
+				css : {color:'#31b404','font-size':'2em'}, // ירוק
+				height : 7
 			}, 
-			media : [ //Stimuli - replacing words with images
+			media : [
 				{image: 'P_gift.png'},
 				{image: 'P_heart.png'},
 				{image: 'P_like.png'},
 				{image: 'P_smile.png'},
 				{image: 'P_sun.png'}
 			], 
-			//EXACTLY the same CSS as for the category images
 			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},
-		base_url : {//Where are your images at?
+		
+		base_url : {
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
 		}
 	});
