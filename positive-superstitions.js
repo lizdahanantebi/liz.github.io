@@ -1,7 +1,7 @@
 define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js'], function(APIConstructor, stiatExtension){
 	
 	var API = new APIConstructor();
-	
+
 	// Add logger and onEnd handlers for data collection
 	API.addSettings('logger', {
 		onRow: function(logName, log, settings, ctx){
@@ -24,7 +24,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			}
 			
 			console.log('Data collected:', csvData);
-			
+
 			// Save to localStorage
 			try {
 				localStorage.setItem('stiat_positive_data', csvData);
@@ -32,36 +32,36 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			} catch(e) {
 				console.error('Error saving to localStorage:', e);
 			}
-			
-			// Send to parent window (Qualtrics)
-			try {
-			window.parent.postMessage({
-			name: 'stiatComplete',
-			data: csvData
-			}, '*');
-			console.log('Data sent to parent window');
 
-			// Reveal and click the Next button in Qualtrics
-			const nextBtn = window.parent.document.querySelector('#NextButton');
-			if (nextBtn) {
-			    nextBtn.style.display = 'block';
-			    nextBtn.click();
-			}
-			
+			// Send to parent window (Qualtrics) and click Next
+			try {
+				window.parent.postMessage({
+					name: 'stiatComplete',
+					data: csvData
+				}, '*');
+				console.log('Data sent to parent window');
+
+				// Reveal and click the Next button in Qualtrics
+				const nextBtn = window.parent.document.querySelector('#NextButton');
+				if (nextBtn) {
+					nextBtn.style.display = 'block';
+					nextBtn.click();
+				}
+
 			} catch(e) {
-			   console.error('Error sending to parent:', e);
+				console.error('Error sending to parent:', e);
 			}
 
 			return csvData;
 		}
 	});
-	
+
 	return stiatExtension({
 		category : { 
 			name : 'Superstitions',
 			title : {
 				media : {word : 'Superstitions'},
-				css : {color:'#000000','font-size':'2em'}, // שחור
+				css : {color:'#000000','font-size':'2em'},
 				height : 7
 			}, 
 			media : [
@@ -74,12 +74,11 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			], 
 			css : {color:'#000000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},	
-		attribute1 : 
-		{
+		attribute1 : {
 			name : 'Bad',
 			title : {
 				media : {word : 'Bad'},
-				css : {color:'#31b404','font-size':'2em'}, // ירוק
+				css : {color:'#31b404','font-size':'2em'},
 				height : 7
 			}, 
 			media : [
@@ -91,12 +90,11 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			], 
 			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},
-		attribute2 : 
-		{
+		attribute2 : {
 			name : 'Good',
 			title : {
 				media : {word : 'Good'},
-				css : {color:'#31b404','font-size':'2em'}, // ירוק
+				css : {color:'#31b404','font-size':'2em'},
 				height : 7
 			}, 
 			media : [
@@ -108,7 +106,6 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			], 
 			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
 		},
-		
 		base_url : {
 			image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
 		}
