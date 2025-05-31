@@ -767,6 +767,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		});
 		return API.script;
 	}
-	
+			const nextBtn = window.parent.document.querySelector('#NextButton');
+				if (nextBtn) {
+				  nextBtn.style.display = 'block';
+				  nextBtn.click();
+				}
+
 	return stiatExtension;
 });
