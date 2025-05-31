@@ -173,6 +173,11 @@ define(['managerAPI',
 		{inherit: 'uploading'},
         {inherit: 'lastpage'}
     ]);
+	// שורת סיום שמחזירה לקוואלטריקס
+API.addSettings('onEnd', () => window.parent.jQuery('#NextButton').click());
+
+return API.script;
+
 
     return API.script;
 });
