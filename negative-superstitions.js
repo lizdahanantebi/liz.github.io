@@ -24,6 +24,11 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			}
 			
 			console.log('Data collected:', csvData);
+			// זה מה שחסר! קריאה ל-minnoJS.logger
+			if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
+			    window.minnoJS.logger(csvData);
+			    console.log('✅ Data sent to Qualtrics via minnoJS.logger');
+			}
 			
 			// Save to localStorage
 			try {
