@@ -763,12 +763,21 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		        //Save to server
 		        API.save({block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 		        
-		        // מעבר לשאלה הבאה רק אחרי שהמבחן מסתיים
-		        const nextBtn = window.parent.document.querySelector('#NextButton');
-		        if (nextBtn) {
-		            nextBtn.style.display = 'block';
-		            nextBtn.click();
-		        }
+		        // קריאה ל-minnoJS.onEnd להודיע לקוואלטריקס שהמבחן הסתיים
+if (typeof window.minnoJS !== 'undefined' && window.minnoJS.onEnd) {
+    window.minnoJS.onEnd();
+    console.log('✅ Called minnoJS.onEnd()');
+}
+
+// גיבוי - מעבר לכפתור הבא למקרה שמשהו לא עובד
+setTimeout(function() {
+    const nextBtn = window.parent.document.querySelector('#NextButton');
+    if (nextBtn) {
+        nextBtn.style.display = 'block';
+        nextBtn.click();
+        console.log('🔄 Clicked NextButton as backup');
+    }
+}, 2000);
 		    }
 });
 		return API.script;
