@@ -762,23 +762,23 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		        piCurrent.feedback = DScoreObj.FBMsg;
 		        //Save to server
 		        API.save({block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+			 // יצירת CSV עם כל הדאטה ושליחה לקוואלטריקס
+			var csvData = 'block,trial,condition,score,feedback,d_score\n';
+			csvData += '9,999,end,' + DScoreObj.DScore + ',' + DScoreObj.FBMsg + ',' + block2Condition;
+			
+			// שליחת הדאטה לקוואלטריקס
+			if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
+			    window.minnoJS.logger(csvData);
+			    console.log('📊 Data sent to Qualtrics:', csvData);
+			}
 		        
 		        // קריאה ל-minnoJS.onEnd להודיע לקוואלטריקס שהמבחן הסתיים
-if (typeof window.minnoJS !== 'undefined' && window.minnoJS.onEnd) {
-    window.minnoJS.onEnd();
-    console.log('✅ Called minnoJS.onEnd()');
-}
-
-// גיבוי - מעבר לכפתור הבא למקרה שמשהו לא עובד
-setTimeout(function() {
-    const nextBtn = window.parent.document.querySelector('#NextButton');
-    if (nextBtn) {
-        nextBtn.style.display = 'block';
-        nextBtn.click();
-        console.log('🔄 Clicked NextButton as backup');
-    }
-}, 2000);
-		    }
+			if (typeof window.minnoJS !== 'undefined' && window.minnoJS.onEnd) {
+			    window.minnoJS.onEnd();
+			    console.log('✅ Called minnoJS.onEnd()');
+			}
+			
+			 }
 });
 		return API.script;
 	}
