@@ -22,39 +22,31 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 }).join('\n');
             }
 
-            console.log('Data collected:', csvData);
+            console.log('📊 Data collected:', csvData);
 
+            // זה מה שחסר! קריאה ל-minnoJS.logger
+            if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
+                window.minnoJS.logger(csvData);
+                console.log('✅ Data sent to Qualtrics via minnoJS.logger');
+            }
+
+            // גיבוי - שמירה מקומית
             try {
                 localStorage.setItem('stiat_positive_data', csvData);
             } catch(e) {
                 console.error('Error saving to localStorage:', e);
             }
 
+            // גיבוי נוסף - postMessage
             try {
                 window.parent.postMessage({
                     name: 'stiatComplete',
                     data: csvData
                 }, '*');
-                console.log('Data sent to parent window');
+                console.log('📨 Data sent via postMessage');
             } catch(e) {
                 console.error('Error sending to parent:', e);
             }
-
-            function tryClickNextButton(retries = 10) {
-                const nextBtn = window.parent.document.querySelector('#NextButton');
-                if (nextBtn) {
-                    nextBtn.style.display = 'block';
-                    nextBtn.click();
-                    console.log('✅ Clicked NextButton');
-                } else if (retries > 0) {
-                    console.log(`⏳ NextButton not found. Retrying... (${retries} left)`);
-                    setTimeout(() => tryClickNextButton(retries - 1), 500);
-                } else {
-                    console.log('❌ Failed to find NextButton after multiple attempts');
-                }
-            }
-
-            tryClickNextButton();
 
             return csvData;
         }
