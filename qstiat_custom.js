@@ -264,7 +264,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				{handle:'skip1',on:'keypressed', key:27}, //Esc + Enter will skip blocks
 				{handle:'left',on:'keypressed',key:'e'},
 				{handle:'right',on:'keypressed',key:'i'},
-				{handle:'timeout',on:'timeout',duration:1500} // הוספת מגבלת זמן 1500ms
+			//	{handle:'timeout',on:'timeout',duration:1500} // הוספת מגבלת זמן 1500ms
 			],
 
 			// user interactions
@@ -276,24 +276,24 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				},
 
 				// timeout - הוספת טיפול בזמן שנגמר
-				{
-					conditions: [{type:'inputEquals',value:'timeout'}],
-					actions: [
-						{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "Please response faster"
-						{type:'setTrialAttr', setter:{score:1}}, // נספר כטעות
-						{type:'setInput',input:{handle:'timeoutEnd', on:'timeout',duration:500}} // הודעה למשך 500ms
-					]
-				},
+				//{
+				//	conditions: [{type:'inputEquals',value:'timeout'}],
+				//	actions: [
+				//		{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "Please response faster"
+				//		{type:'setTrialAttr', setter:{score:1}}, // נספר כטעות
+				//		{type:'setInput',input:{handle:'timeoutEnd', on:'timeout',duration:500}} // הודעה למשך 500ms
+				//	]
+				//},
 
 				// סיום הודעת timeout
-				{
-					conditions: [{type:'inputEquals',value:'timeoutEnd'}],
-					actions: [
-						{type:'hideStim', handle:'timeoutStim'},
-						{type:'log'},
-						{type:'setInput',input:{handle:'end', on:'timeout',duration:piCurrent.ITIDuration}}
-					]
-				},
+				//{
+				//	conditions: [{type:'inputEquals',value:'timeoutEnd'}],
+				//	actions: [
+				//		{type:'hideStim', handle:'timeoutStim'},
+				//		{type:'log'},
+				//		{type:'setInput',input:{handle:'end', on:'timeout',duration:piCurrent.ITIDuration}}
+				//	]
+				//},
 
 				// error
 				{
