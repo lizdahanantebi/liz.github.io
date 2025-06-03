@@ -58,7 +58,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			name : 'Superstitions',
 			title : {
 				media : {word : 'Superstitions'},
-				css : {color:'#000000','font-size':'2em'}, // שחור
+				css : {color:'#0066cc','font-size':'2em'}, // כחול
 				height : 7
 			}, 
 			media : [
@@ -69,7 +69,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				{image : 'N_umbrella.png'},
 				{image : 'N_knockonwood.png'}
 			], 
-			css : {color:'#000000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#000000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
 		},	
 		attribute1 : 
 		{
@@ -86,7 +86,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				{image: 'N_sad.png'},
 				{image: 'N_fire.png'}
 			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'}
 		},
 		attribute2 : 
 		{
@@ -103,7 +103,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				{image: 'P_smile.png'},
 				{image: 'P_sun.png'}
 			], 
-			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+			css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'}
 		},
 		
 		base_url : {
