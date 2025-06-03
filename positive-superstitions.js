@@ -57,7 +57,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
             name : 'Superstitions',
             title : {
                 media : {word : 'Superstitions'},
-                css : {color:'#000000','font-size':'2em'},
+                css : {color:'#0066cc','font-size':'2em'},
                 height : 7
             },
             media : [
@@ -68,7 +68,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 {image : 'P_dice.png'},
                 {image : 'P_clothes.png'}
             ],
-            css : {color:'#000000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+            css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
         },
         attribute1 : {
             name : 'Bad',
