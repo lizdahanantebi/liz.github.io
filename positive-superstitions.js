@@ -68,7 +68,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 {image : 'P_dice.png'},
                 {image : 'P_clothes.png'}
             ],
-            css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+            css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
         },
         attribute1 : {
             name : 'Bad',
@@ -84,7 +84,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 {image: 'N_sad.png'},
                 {image: 'N_fire.png'}
             ],
-            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'}
         },
         attribute2 : {
             name : 'Good',
@@ -100,7 +100,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 {image: 'P_smile.png'},
                 {image: 'P_sun.png'}
             ],
-            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid black'}
+            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'}
         },
         base_url : {
             image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
