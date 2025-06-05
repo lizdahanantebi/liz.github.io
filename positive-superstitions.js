@@ -1,8 +1,8 @@
 define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js'], function(APIConstructor, stiatExtension){
 
-    var API = new APIConstructor();
+    var PositiveAPI = new APIConstructor(); // ← השינוי הראשון: שם ייחודי
 
-    API.addSettings('logger', {
+    PositiveAPI.addSettings('logger', { // ← השינוי השני: משתמש ב-PositiveAPI
         onRow: function(logName, log, settings, ctx){
             if (!ctx.logs) ctx.logs = [];
             ctx.logs.push(log);
@@ -22,12 +22,12 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 }).join('\n');
             }
 
-            console.log('📊 Data collected:', csvData);
+            console.log('📊 POSITIVE Data collected:', csvData); // ← הוספנו "POSITIVE" לזיהוי
 
-            // זה מה שחסר! קריאה ל-minnoJS.logger
+            // קריאה ל-minnoJS.logger
             if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
                 window.minnoJS.logger(csvData);
-                console.log('✅ Data sent to Qualtrics via minnoJS.logger');
+                console.log('✅ POSITIVE Data sent to Qualtrics via minnoJS.logger');
             }
 
             // גיבוי - שמירה מקומית
@@ -40,10 +40,10 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
             // גיבוי נוסף - postMessage
             try {
                 window.parent.postMessage({
-                    name: 'stiatComplete',
+                    name: 'stiatPositiveComplete', // ← שם ייחודי
                     data: csvData
                 }, '*');
-                console.log('📨 Data sent via postMessage');
+                console.log('📨 POSITIVE Data sent via postMessage');
             } catch(e) {
                 console.error('Error sending to parent:', e);
             }
