@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js'], function(APIConstructor, stiatExtension){
+define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js?v=positive'], function(APIConstructor, stiatExtension){
 
     var API = new APIConstructor();
 
