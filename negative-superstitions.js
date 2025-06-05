@@ -1,9 +1,9 @@
 define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js'], function(APIConstructor, stiatExtension){
 	
-	var API = new APIConstructor();
+	var NegativeAPI = new APIConstructor(); // ← השינוי הראשון: שם ייחודי
 	
 	// Add logger and onEnd handlers for data collection
-	API.addSettings('logger', {
+	NegativeAPI.addSettings('logger', { // ← השינוי השני: משתמש ב-NegativeAPI
 		onRow: function(logName, log, settings, ctx){
 			if (!ctx.logs) ctx.logs = [];
 			ctx.logs.push(log);
@@ -23,17 +23,17 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 				}).join('\n');
 			}
 			
-			console.log('Data collected:', csvData);
-			// זה מה שחסר! קריאה ל-minnoJS.logger
+			console.log('📊 NEGATIVE Data collected:', csvData); // ← הוספנו "NEGATIVE" לזיהוי
+			// קריאה ל-minnoJS.logger
 			if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
 			    window.minnoJS.logger(csvData);
-			    console.log('✅ Data sent to Qualtrics via minnoJS.logger');
+			    console.log('✅ NEGATIVE Data sent to Qualtrics via minnoJS.logger');
 			}
 			
 			// Save to localStorage
 			try {
 				localStorage.setItem('stiat_negative_data', csvData);
-				console.log('Data saved to localStorage');
+				console.log('NEGATIVE Data saved to localStorage');
 			} catch(e) {
 				console.error('Error saving to localStorage:', e);
 			}
@@ -41,10 +41,10 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
 			// Send to parent window (Qualtrics)
 			try {
 				window.parent.postMessage({
-					name: 'stiatComplete',
+					name: 'stiatNegativeComplete', // ← שם ייחודי
 					data: csvData
 				}, '*');
-				console.log('Data sent to parent window');
+				console.log('📨 NEGATIVE Data sent to parent window');
 			} catch(e) {
 				console.error('Error sending to parent:', e);
 			}
