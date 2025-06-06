@@ -6,6 +6,34 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		var scorer = new Scorer();
 		var piCurrent = API.getCurrent();
 
+		// ✨ הוספה: בדיקת פרמטר הגרסה מה-URL
+		var urlParams = new URLSearchParams(window.location.search);
+		var version = urlParams.get('v');
+		console.log('🔍 Version detected:', version);
+
+		// ✨ הוספה: קביעת סוג האמונות טפלות בהתאם לגרסה
+		var isNegativeVersion = (version === 'negative');
+		var superstitionType = isNegativeVersion ? 'Negative' : 'Positive';
+		
+		// ✨ הוספה: בחירת תמונות בהתאם לגרסה
+		var superstitionImages = isNegativeVersion ? [
+			{image : 'N_blackcat.png'}, 
+			{image : 'N_brokenmirror.png'}, 
+			{image : 'N_ladder.png'}, 
+			{image : 'N_friday.png'},
+			{image : 'N_umbrella.png'},
+			{image : 'N_knockonwood.png'}
+		] : [
+			{image : 'P_shootingstar.png'},
+			{image : 'P_penny.png'},
+			{image : 'P_crossedfingers.png'},
+			{image : 'P_clover.png'},
+			{image : 'P_dice.png'},
+			{image : 'P_clothes.png'}
+		];
+
+		console.log('📸 Using', superstitionType, 'superstition images');
+
 		var stiatObj = 
 		{
 			//Set the canvas of the task
@@ -20,60 +48,51 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			//Define the category.
 			category :  
 			{
-				name : 'Black People', //Category name to be used for feedback and logging.
+				name : 'Superstitions', // ✨ שונה מ-Black People ל-Superstitions
 				title : {
-					media : {word : 'Black People'}, //Name of the category presented in the task.
-					css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
+					media : {word : 'Superstitions'}, // ✨ שונה מ-Black People ל-Superstitions
+					css : {color:'#0066cc','font-size':'2em'}, // ✨ שונה צבע לכחול
 					height : 4 //Used to position the "Or" in the combined block.
 				}, 
-				media : [ //Stimuli
-					{word: 'Tyron'},
-					{word: 'Malik'},
-					{word: 'Terrell'},
-					{word: 'Jazmin'},
-					{word: 'Tiara'},
-					{word: 'Shanice'}
-				],
+				media : superstitionImages, // ✨ שימוש בתמונות שנבחרו לפי הגרסה
 				//Can change color and size of the targets here.
-				css : {color:'#31b404','font-size':'2em'}
+				css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'} // ✨ עיצוב מותאם לתמונות
 			},	
 			attribute1 : 
 			{
-				name : 'Unpleasant', //Attribute name to be used for feedback and logging
+				name : 'Bad', // ✨ שונה מ-Unpleasant ל-Bad
 				title : {
-					media : {word : 'Unpleasant'}, //Name of the category presented in the task.
+					media : {word : 'Bad'}, // ✨ שונה מ-Unpleasant ל-Bad
 					css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 					height : 4 //Used to position the "Or" in the combined block.
 				}, 
-				media : [ //Stimuli
-					{word: 'Bomb'},
-					{word: 'Abuse'},
-					{word: 'Sadness'},
-					{word: 'Pain'},
-					{word: 'Poison'},
-					{word: 'Grief'}
+				media : [ //Stimuli - ✨ שונה לתמונות
+					{image: 'N_scull.png'},
+					{image: 'N_brokenheart.png'},
+					{image: 'N_unlike.png'},
+					{image: 'N_sad.png'},
+					{image: 'N_fire.png'}
 				], 
 				//Can change color and size of the targets here.
-				css : {color:'#31b404','font-size':'2em'}
+				css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'} // ✨ עיצוב מותאם לתמונות
 			},
 			attribute2 : 
 			{
-				name : 'Pleasant', //Attribute name to be used for feedback and logging
+				name : 'Good', // ✨ שונה מ-Pleasant ל-Good
 				title : {
-					media : {word : 'Pleasant'}, //Name of the category presented in the task.
+					media : {word : 'Good'}, // ✨ שונה מ-Pleasant ל-Good
 					css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 					height : 4 //Used to position the "Or" in the combined block.
 				}, 
-				media : [ //Stimuli
-					{word: 'Paradise'},
-					{word: 'Pleasure'},
-					{word: 'Cheer'},
-					{word: 'Wonderful'},
-					{word: 'Splendid'},
-					{word: 'Love'}
+				media : [ //Stimuli - ✨ שונה לתמונות
+					{image: 'P_gift.png'},
+					{image: 'P_heart.png'},
+					{image: 'P_like.png'},
+					{image: 'P_smile.png'},
+					{image: 'P_sun.png'}
 				], 
 				//Can change color and size of the targets here.
-				css : {color:'#31b404','font-size':'2em'}
+				css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'} // ✨ עיצוב מותאם לתמונות
 			},	
 			trialsByBlock : 
 			[//Each object in this array defines a block - שונה ל-4 בלוקים לפי הטבלה
@@ -126,7 +145,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			switchSideBlock : 3, //שונה מ-4 ל-3 - עוברים צד בבלוק 3
 
 			base_url : {//Where are your images?
-				image : '/implicit/user/yba/pipexample/stiat/images/'
+				image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/' // ✨ עודכן לנתיב הנכון של התמונות
 			}, 
 			ITIDuration : 250, //Duration between trials.
 			
