@@ -1,4 +1,3 @@
-
 define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) {
 
 	function stiatExtension(options)
@@ -172,7 +171,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'<font color="#31b404">attribute1</font>.<br/>' + 
 				'Put a right finger on the <b>I</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute2</font> ' +
-				'and for items that belong to the category <font color="#000000"><b>thecategory</b></font>.<br/>' + 
+				'and for items that belong to the category <font color="#0066cc">thecategory</font>.<br/>' + 
 				'Items will appear one at a time.<br/><br/>' + 
 				'If you make a mistake, a red <font color="#ff0000"><b>X</b></font> will appear. ' + 
 				'Press the other key to continue.<br/><br/>' + 
@@ -182,7 +181,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 				'Put a left finger on the <b>E</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute1</font> ' +
-				'and for items that belong to the category <font color="#000000"><b>thecategory</b></font>.<br/>' + 
+				'and for items that belong to the category <font color="#0066cc">thecategory</font>.<br/>' + 
 				'Put a right finger on the <b>I</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute2</font>.<br/>' + 
 				'Items will appear one at a time.<br/><br/>' + 
@@ -265,7 +264,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				{handle:'skip1',on:'keypressed', key:27}, //Esc + Enter will skip blocks
 				{handle:'left',on:'keypressed',key:'e'},
 				{handle:'right',on:'keypressed',key:'i'},
-				{handle:'timeout',on:'timeout',duration:1500} // הוספת מגבלת זמן 1500ms
+			//	{handle:'timeout',on:'timeout',duration:1500} // הוספת מגבלת זמן 1500ms
 			],
 
 			// user interactions
@@ -277,24 +276,24 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				},
 
 				// timeout - הוספת טיפול בזמן שנגמר
-				{
-					conditions: [{type:'inputEquals',value:'timeout'}],
-					actions: [
-						{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "Please response faster"
-						{type:'setTrialAttr', setter:{score:1}}, // נספר כטעות
-						{type:'setInput',input:{handle:'timeoutEnd', on:'timeout',duration:500}} // הודעה למשך 500ms
-					]
-				},
+				//{
+				//	conditions: [{type:'inputEquals',value:'timeout'}],
+				//	actions: [
+				//		{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "Please response faster"
+				//		{type:'setTrialAttr', setter:{score:1}}, // נספר כטעות
+				//		{type:'setInput',input:{handle:'timeoutEnd', on:'timeout',duration:500}} // הודעה למשך 500ms
+				//	]
+				//},
 
 				// סיום הודעת timeout
-				{
-					conditions: [{type:'inputEquals',value:'timeoutEnd'}],
-					actions: [
-						{type:'hideStim', handle:'timeoutStim'},
-						{type:'log'},
-						{type:'setInput',input:{handle:'end', on:'timeout',duration:piCurrent.ITIDuration}}
-					]
-				},
+				//{
+				//	conditions: [{type:'inputEquals',value:'timeoutEnd'}],
+				//	actions: [
+				//		{type:'hideStim', handle:'timeoutStim'},
+				//		{type:'log'},
+				//		{type:'setInput',input:{handle:'end', on:'timeout',duration:piCurrent.ITIDuration}}
+				//	]
+				//},
 
 				// error
 				{
@@ -763,14 +762,23 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		        piCurrent.feedback = DScoreObj.FBMsg;
 		        //Save to server
 		        API.save({block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+			 // יצירת CSV עם כל הדאטה ושליחה לקוואלטריקס
+			var csvData = 'block,trial,condition,score,feedback,d_score\n';
+			csvData += '9,999,end,' + DScoreObj.DScore + ',' + DScoreObj.FBMsg + ',' + block2Condition;
+			
+			// שליחת הדאטה לקוואלטריקס
+			if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
+			    window.minnoJS.logger(csvData);
+			    console.log('📊 Data sent to Qualtrics:', csvData);
+			}
 		        
-		        // מעבר לשאלה הבאה רק אחרי שהמבחן מסתיים
-		        const nextBtn = window.parent.document.querySelector('#NextButton');
-		        if (nextBtn) {
-		            nextBtn.style.display = 'block';
-		            nextBtn.click();
-		        }
-		    }
+		        // קריאה ל-minnoJS.onEnd להודיע לקוואלטריקס שהמבחן הסתיים
+			if (typeof window.minnoJS !== 'undefined' && window.minnoJS.onEnd) {
+			    window.minnoJS.onEnd();
+			    console.log('✅ Called minnoJS.onEnd()');
+			}
+			
+			 }
 });
 		return API.script;
 	}
