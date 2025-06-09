@@ -26,6 +26,8 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     }
     
     console.log('🎯 Starting combined wrapper with testType:', testType);
+    console.log('🔍 Debugging - orderObj:', orderObj);
+    console.log('🔍 Debugging - actualTest will be:', testType === 'first' ? orderObj.first : orderObj.second);
     
     // בדיקה/יצירה של סדר המבחנים
     var testOrder = sessionStorage.getItem('superstitions_test_order');
@@ -56,6 +58,23 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     }
     
     console.log('✨ Running test:', actualTest, 'for position:', testType);
+    
+    // ניקוי מלא של המערכת לפני הפעלת המבחן
+    console.log('🧹 Cleaning up previous test data...');
+    if (typeof window.minnoJS !== 'undefined') {
+        delete window.minnoJS;
+    }
+    if (typeof window.piGlobal !== 'undefined') {
+        delete window.piGlobal;
+    }
+    // ניקוי כל המודולים של RequireJS
+    if (typeof requirejs !== 'undefined' && requirejs.s && requirejs.s.contexts) {
+        Object.keys(requirejs.s.contexts).forEach(function(key) {
+            if (key !== '_') {
+                delete requirejs.s.contexts[key];
+            }
+        });
+    }
     
     // הגדרת קונפיגורציה לפי סוג המבחן
     var config;
