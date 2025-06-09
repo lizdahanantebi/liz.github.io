@@ -84,7 +84,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					miniBlocks : 1, //Set to 1 if don't need mini blocks. 0 will break the task.
 					singleAttTrials : 8, //Number of trials of the attribute that does not share key with the category (in a mini block).
 					sharedAttTrials : 8, //Number of trials of the attribute that shares key with the category (in a mini block).
-					categoryTrials : 0 // 0 = בלוק אימון ללא קטגוריה (רק Bad vs Good)
+					categoryTrials : 8 // סה"כ 24 חזרות - עם קטגוריה
 				}, 
 				{ 
 					instHTML : '', 
@@ -100,7 +100,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					miniBlocks : 1, // מיני-בלוק אחד
 					singleAttTrials : 8, // 8 חזרות
 					sharedAttTrials : 8, // 8 חזרות
-					categoryTrials : 0   // 0 = בלוק אימון שוב ללא קטגוריה (רק Bad vs Good)
+					categoryTrials : 8   // 8 חזרות, סה"כ 24 חזרות - עם קטגוריה
 				}, 
 				{ 
 					instHTML : '', 
