@@ -2,8 +2,11 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     
     var API = new APIConstructor();
     
-    // קריאת פרמטרים מה-URL
-    var urlParams = new URLSearchParams(window.location.search);
+    // קריאת פרמטרים מה-URL של הסקריפט עצמו
+    var scriptElements = document.getElementsByTagName('script');
+    var currentScript = scriptElements[scriptElements.length - 1];
+    var scriptSrc = currentScript.src;
+    var urlParams = new URLSearchParams(scriptSrc.split('?')[1] || '');
     var testType = urlParams.get('test'); // 'first' או 'second'
     
     console.log('🎯 Starting combined wrapper with testType:', testType);
@@ -115,7 +118,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                     {image : 'N_umbrella.png'},
                     {image : 'N_knockonwood.png'}
                 ], 
-                css : {color:'#000000','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
+                css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
             },
             attribute1 : {
                 name : 'Bad',
