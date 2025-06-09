@@ -76,7 +76,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				css : {color:'#31b404','font-size':'2em'}
 			},	
 			trialsByBlock : 
-			[//Each object in this array defines a block - מתוקן ל-4 בלוקים
+			[//Each object in this array defines a block - שונה ל-4 בלוקים לפי הטבלה
 				{
 					instHTML : '', //Empty means we will create the inst from the instTemplate variable further below. 
 					block : 1, //The block variable is not used later, but could help the user. 
@@ -84,7 +84,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					miniBlocks : 1, //Set to 1 if don't need mini blocks. 0 will break the task.
 					singleAttTrials : 8, //Number of trials of the attribute that does not share key with the category (in a mini block).
 					sharedAttTrials : 8, //Number of trials of the attribute that shares key with the category (in a mini block).
-					categoryTrials : 8 // סה"כ 24 חזרות - עם קטגוריה
+					categoryTrials : 8 // Number of trials of the category (in a mini-block) - סה"כ 24 חזרות
+					//Note: if no category trials, then attribute1, the one on the left, is considered the single attribute.
 				}, 
 				{ 
 					instHTML : '', 
@@ -92,7 +93,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					miniBlocks : 3, // 3 מיני-בלוקים
 					singleAttTrials : 8, // 8×3 = 24
 					sharedAttTrials : 8, // 8×3 = 24
-					categoryTrials : 8   // 8×3 = 24, סה"כ 72 חזרות - עם קטגוריה
+					categoryTrials : 8   // 8×3 = 24, סה"כ 72 חזרות
 				}, 
 				{ 
 					instHTML : '', 
@@ -100,7 +101,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					miniBlocks : 1, // מיני-בלוק אחד
 					singleAttTrials : 8, // 8 חזרות
 					sharedAttTrials : 8, // 8 חזרות
-					categoryTrials : 8   // 8 חזרות, סה"כ 24 חזרות - עם קטגוריה
+					categoryTrials : 8   // 8 חזרות, סה"כ 24 חזרות
 				}, 
 				{ 
 					instHTML : '', 
@@ -108,7 +109,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					miniBlocks : 3, // 3 מיני-בלוקים
 					singleAttTrials : 8, // 8×3 = 24
 					sharedAttTrials : 8, // 8×3 = 24
-					categoryTrials : 8   // 8×3 = 24, סה"כ 72 חזרות - עם קטגוריה בצד שמאל
+					categoryTrials : 8   // 8×3 = 24, סה"כ 72 חזרות
 				}
 			],
 			//All blocks show attribute1 on the left and attribute2 on the right. 
@@ -122,7 +123,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 			//If the switch parameter is 0 or smaller, we switch the side of the category every block. 
 			//If it is larger than 0, then we switch the category side only once, in the block specified in switchSideBlock.
-			switchSideBlock : 4, //שונה ל-4 - עוברים צד בבלוק 4
+			switchSideBlock : 3, //שונה מ-4 ל-3 - עוברים צד בבלוק 3
 
 			base_url : {//Where are your images?
 				image : '/implicit/user/yba/pipexample/stiat/images/'
@@ -164,7 +165,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'Press the other key to continue.<br/><br/>' + 
 				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>', 
 			instTemplateCategoryRight : '<div><p align="center" style="font-size:20px; font-family:arial">' +
-				'<font color="#000000"><u>Part blockNum of nBlocks</u><br/><br/></p>' + 
+				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' + 
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 				'Put a left finger on the <b>E</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute1</font>.<br/>' + 
@@ -176,7 +177,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				'Press the other key to continue.<br/><br/>' + 
 				'<p align="center">Press the <b>space bar</b> when you are ready to start.</font></p></div>', 
 			instTemplateCategoryLeft : '<div><p align="center" style="font-size:20px; font-family:arial">' +
-				'<font color="#000000"><u>Part blockNum of nBlocks</u><br/><br/></p>' + 
+				'<font color="#000000"><u>Part blockNum of nBlocks </u><br/><br/></p>' + 
 				'<p style="font-size:20px; text-align:left; vertical-align:bottom; margin-left:10px; font-family:arial">' +
 				'Put a left finger on the <b>E</b> key for items that belong to the category ' + 
 				'<font color="#31b404">attribute1</font> ' +
