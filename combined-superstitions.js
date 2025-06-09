@@ -1,13 +1,29 @@
-define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js'], function(APIConstructor, stiatExtension){
+define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js?v=' + new Date().getTime()], function(APIConstructor, stiatExtension){
     
     var API = new APIConstructor();
     
-    // קריאת פרמטרים מה-URL של הסקריפט עצמו
-    var scriptElements = document.getElementsByTagName('script');
-    var currentScript = scriptElements[scriptElements.length - 1];
-    var scriptSrc = currentScript.src;
-    var urlParams = new URLSearchParams(scriptSrc.split('?')[1] || '');
-    var testType = urlParams.get('test'); // 'first' או 'second'
+    // זיהוי איזה מבחן זה לפי זמן ו-sessionStorage
+    var testType;
+    var lastTestTime = sessionStorage.getItem('lastTestTime');
+    var currentTime = new Date().getTime();
+    
+    if (!lastTestTime) {
+        // זה המבחן הראשון
+        testType = 'first';
+        sessionStorage.setItem('lastTestTime', currentTime);
+        console.log('🎯 This is the FIRST test (no previous test found)');
+    } else {
+        var timeDiff = currentTime - parseInt(lastTestTime);
+        if (timeDiff < 30000) { // 30 שניות
+            // זה כנראה refresh של אותו מבחן
+            testType = 'first';
+            console.log('🔄 This seems like a refresh of the first test (time diff: ' + timeDiff + 'ms)');
+        } else {
+            // זה המבחן השני
+            testType = 'second';
+            console.log('🎯 This is the SECOND test (time diff: ' + timeDiff + 'ms)');
+        }
+    }
     
     console.log('🎯 Starting combined wrapper with testType:', testType);
     
