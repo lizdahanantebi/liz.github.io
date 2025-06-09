@@ -119,7 +119,82 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     var combinedConfig = {
         base_url : {
             image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
-        }
+        },
+        // הגדרת 8 בלוקים במקום 4
+        trialsByBlock : [
+            // בלוק 1 - תרגול
+            {
+                instHTML : '', 
+                block : 1, 
+                miniBlocks : 1,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            }, 
+            // בלוק 2 - מבחן ראשון
+            { 
+                instHTML : '', 
+                block : 2, 
+                miniBlocks : 3,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            }, 
+            // בלוק 3 - תרגול שני
+            { 
+                instHTML : '', 
+                block : 3, 
+                miniBlocks : 1,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            }, 
+            // בלוק 4 - מבחן ראשון
+            { 
+                instHTML : '', 
+                block : 4, 
+                miniBlocks : 3,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            },
+            // בלוק 5 - תרגול (מבחן שני)
+            { 
+                instHTML : '', 
+                block : 5, 
+                miniBlocks : 1,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            },
+            // בלוק 6 - מבחן שני
+            { 
+                instHTML : '', 
+                block : 6, 
+                miniBlocks : 3,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            },
+            // בלוק 7 - תרגול שני
+            { 
+                instHTML : '', 
+                block : 7, 
+                miniBlocks : 1,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            },
+            // בלוק 8 - מבחן שני
+            { 
+                instHTML : '', 
+                block : 8, 
+                miniBlocks : 3,
+                singleAttTrials : 8,
+                sharedAttTrials : 8,
+                categoryTrials : 8
+            }
+        ]
     };
     
     // הוספת logger מותאם אישית
