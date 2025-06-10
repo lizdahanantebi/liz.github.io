@@ -758,10 +758,11 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 		        //Save for the task's session.
 		        piCurrent.feedback = DScoreObj.FBMsg;
 		        //Save to server
-		        API.save({block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+		       API.save({prolific_id: prolific_id, block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
 			 // יצירת CSV עם כל הדאטה ושליחה לקוואלטריקס
-			var csvData = 'block,trial,condition,score,feedback,d_score\n';
-			csvData += '9,999,end,' + DScoreObj.DScore + ',' + DScoreObj.FBMsg + ',' + block2Condition;
+			var csvData = 'prolific_id,block,trial,condition,score,feedback,d_score\n';
+			csvData += prolific_id + ',9,999,end,' + DScoreObj.DScore + ',' + DScoreObj.FBMsg + ',' + block2Condition;
+
 			
 			// שליחת הדאטה לקוואלטריקס
 			if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
