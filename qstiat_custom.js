@@ -3,8 +3,14 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 	function stiatExtension(options)
 	{
 		var API = new APIConstructor();
+
+		// ✨ תוספת לקריאת PROLIFIC_PID מה-URL
+		const query = (new URL(window.location.href)).searchParams;
+		const prolific_id = query.get('PROLIFIC_PID') || 'NA';
+		
 		var scorer = new Scorer();
 		var piCurrent = API.getCurrent();
+
 
 		var stiatObj = 
 		{
