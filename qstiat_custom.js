@@ -76,7 +76,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				css : {color:'#31b404','font-size':'2em'}
 			},	
 			trialsByBlock : 
-			[//Each object in this array defines a block - עודכן עם בלוק אימון חדש
+			[//Each object in this array defines a block - מותאם לקוד המקורי של בר ענן
 				{
 					// בלוק 1: אימון - רק Good/Bad ללא אמונות טפלות
 					instHTML : '', //Empty means we will create the inst from the instTemplate variable further below. 
@@ -84,43 +84,43 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					miniBlocks : 1, //Set to 1 if don't need mini blocks. 0 will break the task.
 					singleAttTrials : 10, //Number of trials of Bad (left)
 					sharedAttTrials : 10, //Number of trials of Good (right)
-					categoryTrials : 0 // אין אמונות טפלות בבלוק האימון
+					categoryTrials : 0 // אין אמונות טפלות בבלוק האימון = 20 חזרות
 				},
 				{
-					// בלוק 2: מיקס ראשון
+					// בלוק 2: מיקס ראשון - מותאם לבר ענן
 					instHTML : '', 
 					block : 2, 
-					miniBlocks : 1,
-					singleAttTrials : 8, 
-					sharedAttTrials : 8, 
-					categoryTrials : 8 // סה"כ 24 חזרות
+					miniBlocks : 2, // 2 מיני-בלוקים
+					singleAttTrials : 10, // 10×2 = 20
+					sharedAttTrials : 7, // 7×2 = 14
+					categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
 				}, 
 				{ 
-					// בלוק 3: מיקס מורחב
+					// בלוק 3: מיקס המשך - מותאם לבר ענן
 					instHTML : '', 
 					block : 3, 
-					miniBlocks : 3, // 3 מיני-בלוקים
-					singleAttTrials : 8, // 8×3 = 24
-					sharedAttTrials : 8, // 8×3 = 24
-					categoryTrials : 8   // 8×3 = 24, סה"כ 72 חזרות
+					miniBlocks : 2, // 2 מיני-בלוקים
+					singleAttTrials : 10, // 10×2 = 20
+					sharedAttTrials : 7, // 7×2 = 14
+					categoryTrials : 7   // 7×2 = 14, סה"כ 48 חזרות
 				}, 
 				{ 
-					// בלוק 4: מיקס החלפת צד קצר
+					// בלוק 4: החלפת צד - מותאם לבר ענן
 					instHTML : '', 
 					block : 4, 
-					miniBlocks : 1, // מיני-בלוק אחד
-					singleAttTrials : 8, // 8 חזרות
-					sharedAttTrials : 8, // 8 חזרות
-					categoryTrials : 8   // 8 חזרות, סה"כ 24 חזרות
+					miniBlocks : 2, // 2 מיני-בלוקים
+					singleAttTrials : 10, // 10×2 = 20
+					sharedAttTrials : 7, // 7×2 = 14
+					categoryTrials : 7   // 7×2 = 14, סה"כ 48 חזרות
 				}, 
 				{ 
-					// בלוק 5: מיקס החלפת צד מורחב
+					// בלוק 5: מיקס סופי - מותאם לבר ענן
 					instHTML : '', 
 					block : 5, 
-					miniBlocks : 3, // 3 מיני-בלוקים
-					singleAttTrials : 8, // 8×3 = 24
-					sharedAttTrials : 8, // 8×3 = 24
-					categoryTrials : 8   // 8×3 = 24, סה"כ 72 חזרות
+					miniBlocks : 2, // 2 מיני-בלוקים
+					singleAttTrials : 10, // 10×2 = 20
+					sharedAttTrials : 7, // 7×2 = 14
+					categoryTrials : 7   // 7×2 = 14, סה"כ 48 חזרות
 				}
 			],
 			//All blocks show attribute1 on the left and attribute2 on the right. 
