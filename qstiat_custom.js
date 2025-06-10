@@ -39,9 +39,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			},	
 			attribute1 : 
 			{
-				name : 'Unpleasant', //Attribute name to be used for feedback and logging
+				name : 'Bad', //Attribute name to be used for feedback and logging
 				title : {
-					media : {word : 'Unpleasant'}, //Name of the category presented in the task.
+					media : {word : 'Bad'}, //Name of the category presented in the task.
 					css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 					height : 4 //Used to position the "Or" in the combined block.
 				}, 
@@ -58,9 +58,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 			},
 			attribute2 : 
 			{
-				name : 'Pleasant', //Attribute name to be used for feedback and logging
+				name : 'Good', //Attribute name to be used for feedback and logging
 				title : {
-					media : {word : 'Pleasant'}, //Name of the category presented in the task.
+					media : {word : 'Good'}, //Name of the category presented in the task.
 					css : {color:'#31b404','font-size':'2em'}, //Style of the category title.
 					height : 4 //Used to position the "Or" in the combined block.
 				}, 
@@ -76,36 +76,47 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				css : {color:'#31b404','font-size':'2em'}
 			},	
 			trialsByBlock : 
-			[//Each object in this array defines a block - שונה ל-4 בלוקים לפי הטבלה
+			[//Each object in this array defines a block - עודכן עם בלוק אימון חדש
 				{
+					// בלוק 1: אימון - רק Good/Bad ללא אמונות טפלות
 					instHTML : '', //Empty means we will create the inst from the instTemplate variable further below. 
 					block : 1, //The block variable is not used later, but could help the user. 
-					//In each block, we can include a number of mini-blocks, to reduce repetition of same group/response.
 					miniBlocks : 1, //Set to 1 if don't need mini blocks. 0 will break the task.
-					singleAttTrials : 8, //Number of trials of the attribute that does not share key with the category (in a mini block).
-					sharedAttTrials : 8, //Number of trials of the attribute that shares key with the category (in a mini block).
-					categoryTrials : 8 // Number of trials of the category (in a mini-block) - סה"כ 24 חזרות
-					//Note: if no category trials, then attribute1, the one on the left, is considered the single attribute.
-				}, 
-				{ 
+					singleAttTrials : 10, //Number of trials of Bad (left)
+					sharedAttTrials : 10, //Number of trials of Good (right)
+					categoryTrials : 0 // אין אמונות טפלות בבלוק האימון
+				},
+				{
+					// בלוק 2: מיקס ראשון
 					instHTML : '', 
 					block : 2, 
+					miniBlocks : 1,
+					singleAttTrials : 8, 
+					sharedAttTrials : 8, 
+					categoryTrials : 8 // סה"כ 24 חזרות
+				}, 
+				{ 
+					// בלוק 3: מיקס מורחב
+					instHTML : '', 
+					block : 3, 
 					miniBlocks : 3, // 3 מיני-בלוקים
 					singleAttTrials : 8, // 8×3 = 24
 					sharedAttTrials : 8, // 8×3 = 24
 					categoryTrials : 8   // 8×3 = 24, סה"כ 72 חזרות
 				}, 
 				{ 
+					// בלוק 4: מיקס החלפת צד קצר
 					instHTML : '', 
-					block : 3, 
+					block : 4, 
 					miniBlocks : 1, // מיני-בלוק אחד
 					singleAttTrials : 8, // 8 חזרות
 					sharedAttTrials : 8, // 8 חזרות
 					categoryTrials : 8   // 8 חזרות, סה"כ 24 חזרות
 				}, 
 				{ 
+					// בלוק 5: מיקס החלפת צד מורחב
 					instHTML : '', 
-					block : 4, 
+					block : 5, 
 					miniBlocks : 3, // 3 מיני-בלוקים
 					singleAttTrials : 8, // 8×3 = 24
 					sharedAttTrials : 8, // 8×3 = 24
@@ -123,7 +134,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
 			//If the switch parameter is 0 or smaller, we switch the side of the category every block. 
 			//If it is larger than 0, then we switch the category side only once, in the block specified in switchSideBlock.
-			switchSideBlock : 3, //שונה מ-4 ל-3 - עוברים צד בבלוק 3
+			switchSideBlock : 4, //שונה ל-4 כי עכשיו יש 5 בלוקים - עוברים צד בבלוק 4
 
 			base_url : {//Where are your images?
 				image : '/implicit/user/yba/pipexample/stiat/images/'
@@ -274,26 +285,6 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 					conditions: [{type:'begin'}],
 					actions: [{type:'showStim',handle:'targetStim'}]
 				},
-
-				// timeout - הוספת טיפול בזמן שנגמר
-				//{
-				//	conditions: [{type:'inputEquals',value:'timeout'}],
-				//	actions: [
-				//		{type:'showStim',handle:'timeoutStim'}, // הצגת הודעת "Please response faster"
-				//		{type:'setTrialAttr', setter:{score:1}}, // נספר כטעות
-				//		{type:'setInput',input:{handle:'timeoutEnd', on:'timeout',duration:500}} // הודעה למשך 500ms
-				//	]
-				//},
-
-				// סיום הודעת timeout
-				//{
-				//	conditions: [{type:'inputEquals',value:'timeoutEnd'}],
-				//	actions: [
-				//		{type:'hideStim', handle:'timeoutStim'},
-				//		{type:'log'},
-				//		{type:'setInput',input:{handle:'end', on:'timeout',duration:piCurrent.ITIDuration}}
-				//	]
-				//},
 
 				// error
 				{
@@ -582,7 +573,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 				currentCondition = attribute1 + ',' + attribute2 + '/' + category;
 			}
 
-			if (iBlock === 2)
+			if (iBlock === 2) // שינוי: הבלוק השני הוא עכשיו הבלוק שיגדיר את התנאי
 			{//Set the block2Condition variable. That is our block order condition.
 				block2Condition = currentCondition;
 			}
