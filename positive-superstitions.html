@@ -73,6 +73,7 @@
                 // Set up onEnd function
                 minnoJS.onEnd = function() {
                     console.log('Task completed');
+                    if (window.parent !== window.self) window.parent.postMessage({ done: true }, '*');
                     setTimeout(function() {
                         alert('Task completed! Please return to the survey.');
                     }, 500);
