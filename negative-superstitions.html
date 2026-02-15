@@ -11,12 +11,27 @@
 </head>
 <body>
     <div id="canvas"></div>
-    <input type="hidden" id="hidden-data" />
+    <input type="hidden" id="hidden-data" tabindex="-1" autocomplete="off" />
 
     <script src="https://cdn.jsdelivr.net/gh/minnojs/minno-quest@0.3/dist/pi-minno.js"></script>
     <script>
         window.onload = function() {
             var canvas = document.getElementById('canvas');
+            // So that Space bar goes to the task, not to an input (no "writing" on screen)
+            document.getElementById('hidden-data').setAttribute('tabindex', '-1');
+            document.body.setAttribute('tabindex', '-1');
+            canvas.setAttribute('tabindex', '-1');
+            if (document.activeElement && document.activeElement.tagName === 'INPUT') document.activeElement.blur();
+            canvas.focus();
+            setTimeout(function() {
+                if (document.activeElement && document.activeElement.tagName === 'INPUT') document.activeElement.blur();
+                canvas.focus();
+            }, 400);
+
+            // Prevent Space from scrolling the page (so it starts the task even without clicking first)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === ' ' || e.keyCode === 32) e.preventDefault();
+            }, true);
 
             // Run the ST-IAT
             minnoJS(canvas, 'https://lizdahanantebi.github.io/liz.github.io/negative-superstitions.js');
