@@ -51,6 +51,7 @@
           window.parent.postMessage({
             name: 'stiatComplete',
             data: hiddenData
+            done: true
           }, '*');
         } catch (e) {
           console.error('Failed to post message to parent', e);
