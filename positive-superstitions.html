@@ -33,6 +33,18 @@
                 
                 // Load the SC-IAT task
                 minnoJS(document.getElementById('minno-container'), 'https://lizdahanantebi.github.io/liz.github.io/positive-superstitions.js');
+                        if (window.parent !== window.self) {
+            var origLogger = minnoJS.logger;
+            minnoJS.logger = function(value) {
+                if (origLogger) origLogger(value);
+                window.parent.postMessage({ data: value }, '*');
+            };
+            var origOnEnd = minnoJS.onEnd;
+            minnoJS.onEnd = function() {
+                if (origOnEnd) origOnEnd();
+                window.parent.postMessage({ done: true }, '*');
+            };
+        }
                 
                 // Set up logger to capture data
                 minnoJS.logger = function(value) {
