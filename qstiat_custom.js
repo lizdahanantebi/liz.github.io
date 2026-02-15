@@ -507,7 +507,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  media : {inherit:{type:'exRandom',set:'category'}}
  }], 
  error : [{
- data:{handle:'error'}, location: {top: 70}, css:{color:'red','font-size':'2.5em'}, media: {word:'X'}, nolog:true
+ data:{handle:'error'}, location: {top: 90}, css:{color:'red','font-size':'2.5em'}, media: {word:'X'}, nolog:true
  }],
  timeoutStim : [{
  data:{handle:'timeoutStim'}, location: {top: 80}, css:{color:'red','font-size':'2em'}, media: {word:'Please response faster'}, nolog:true
