@@ -1,66 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Superstitions SC-IAT</title>
-  <script src="https://cdn.jsdelivr.net/gh/minnojs/minno-quest@0.3/dist/pi-minno.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/minnojs/minno-quest@0.3/dist/main.css" />
-  <style>
-    body, html { margin: 0; padding: 0; height: 100%; width: 100%; }
-    #canvas { height: 100vh; width: 100%; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superstitions SC-IAT</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; }
+        #canvas { height: 100vh; width: 100%; }
+    </style>
 </head>
 <body>
-  <div id="canvas"></div>
-  <div style="display:none">
-    <form id="hidden-form" action="#" method="get">
-      <textarea id="hidden-data" name="hidden-data" rows="10" cols="80"></textarea>
-    </form>
-  </div>
-  
-  <script>
-    window.onload = function() {
-      var canvas = document.getElementById('canvas');
-      
-      // Run the ST-IAT
-      minnoJS(canvas, 'https://lizdahanantebi.github.io/liz.github.io/negative-superstitions.js');
-      
-      // Save data to hidden form and to localStorage
-      minnoJS.logger = function(data) {
-        // Save to hidden form for Qualtrics
-        document.getElementById('hidden-data').value = data;
-        
-        // Also save to localStorage as backup
-        try {
-          localStorage.setItem('stiat_negative_data', data);
-          console.log('Data saved to localStorage');
-        } catch (e) {
-          console.error('Failed to save data to localStorage', e);
-        }
-        
-        // Log data to console for debugging
-        console.log('Data logged:', data);
-      };
-      
-      // When the test ends, go back to Qualtrics
-      minnoJS.onEnd = function() {
-        // Try to send data back to Qualtrics
-        var hiddenData = document.getElementById('hidden-data').value;
-        
-        // If this is in an iframe from Qualtrics
-        try {
-          window.parent.postMessage({
-          name: 'stiatComplete',
-          data: hiddenData,
-          done: true
-          }, '*');
-        } catch (e) {
-          console.error('Failed to post message to parent', e);
-        }
-        
-        // Display message and return to survey
-        alert("Thank you! You have completed the task. The data has been saved. Please close this window and return to the survey.");
-      };
-    };
-  </script>
+    <div id="canvas"></div>
+    <input type="hidden" id="hidden-data" />
+
+    <script src="https://cdn.jsdelivr.net/gh/minnojs/minno-quest@0.3/dist/pi-minno.js"></script>
+    <script>
+        window.onload = function() {
+            var canvas = document.getElementById('canvas');
+
+            // Run the ST-IAT
+            minnoJS(canvas, 'https://lizdahanantebi.github.io/liz.github.io/negative-superstitions.js');
+
+            // When running inside iframe (Qualtrics) or with ?embed=1 – send data via postMessage, no alert
+            var isEmbedded = (window.parent !== window.self) || (window.location.search.indexOf('embed=1') !== -1);
+            if (isEmbedded) {
+                // Apply wrapper after a short delay so we run after minnoJS/task script has set its logger/onEnd (we then wrap them)
+                setTimeout(function applyPostMessageWrapper() {
+                    var origLogger = minnoJS.logger;
+                    var origOnEnd = minnoJS.onEnd;
+                    minnoJS.logger = function(value) {
+                        if (origLogger) try { origLogger(value); } catch (e) {}
+                        window.parent.postMessage({ data: value }, '*');
+                    };
+                    minnoJS.onEnd = function() {
+                        if (origOnEnd) try { origOnEnd(); } catch (e) {}
+                        window.parent.postMessage({ done: true }, '*');
+                    };
+                }, 150);
+            } else {
+                // When opened directly (not in iframe) – save to form and localStorage, show alert at end
+                minnoJS.logger = function(data) {
+                    document.getElementById('hidden-data').value = typeof data === 'string' ? data : JSON.stringify(data);
+                    try {
+                        localStorage.setItem('stiat_negative_data', document.getElementById('hidden-data').value);
+                    } catch (e) {
+                        console.error('Failed to save data to localStorage', e);
+                    }
+                    console.log('Data logged:', data);
+                };
+                minnoJS.onEnd = function() {
+                    try {
+                        window.parent.postMessage({
+                            name: 'stiatComplete',
+                            data: document.getElementById('hidden-data').value,
+                            done: true
+                        }, '*');
+                    } catch (e) {}
+                    alert("Thank you! You have completed the task. The data has been saved. Please close this window and return to the survey.");
+                };
+            }
+        };
+    </script>
 </body>
 </html>
