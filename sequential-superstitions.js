@@ -26,7 +26,6 @@ define(['pipAPI', './qstiat_custom.js'], function(APIConstructor, stiatExtension
                 {image : 'P_penny.png'},
                 {image : 'P_crossedfingers.png'},
                 {image : 'P_clover.png'},
-                {image : 'P_dice.png'},
                 {image : 'P_clothes.png'}
             ],
             css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
@@ -78,7 +77,6 @@ define(['pipAPI', './qstiat_custom.js'], function(APIConstructor, stiatExtension
                 {image : 'N_brokenmirror.png'}, 
                 {image : 'N_ladder.png'}, 
                 {image : 'N_friday.png'},
-                {image : 'N_umbrella.png'},
                 {image : 'N_knockonwood.png'}
             ], 
             css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
