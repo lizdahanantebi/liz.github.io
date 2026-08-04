@@ -17,7 +17,6 @@
     <script>
         window.onload = function() {
             var canvas = document.getElementById('canvas');
-            // So that Space bar goes to the task, not to an input (no "writing" on screen)
             document.getElementById('hidden-data').setAttribute('tabindex', '-1');
             document.body.setAttribute('tabindex', '-1');
             canvas.setAttribute('tabindex', '-1');
@@ -28,42 +27,50 @@
                 canvas.focus();
             }, 400);
 
-            // Prevent Space from scrolling the page (so it starts the task even without clicking first)
             document.addEventListener('keydown', function(e) {
                 if (e.key === ' ' || e.keyCode === 32) e.preventDefault();
             }, true);
 
-            // Run the first SC-IAT (positive)
             minnoJS(canvas, 'https://lizdahanantebi.github.io/liz.github.io/positive-superstitions.js');
 
-            // When running inside iframe (Qualtrics) or with ?embed=1 – only postMessage, NO alert
+            // Embedded in Qualtrics iframe, or forced with ?embed=1
             var isEmbedded = (window.parent !== window.self) || (window.location.search.indexOf('embed=1') !== -1);
-            if (isEmbedded) {
-                setTimeout(function applyPostMessageWrapper() {
-                    var origLogger = minnoJS.logger;
-                    var origOnEnd = minnoJS.onEnd;
-                    minnoJS.logger = function(value) {
-                        if (origLogger) try { origLogger(value); } catch (e) {}
-                        window.parent.postMessage({ data: value }, '*');
-                    };
-                    minnoJS.onEnd = function() {
-                        if (origOnEnd) try { origOnEnd(); } catch (e) {}
-                        window.parent.postMessage({ done: true }, '*');
-                    };
-                }, 150);
-            } else {
-                minnoJS.logger = function(data) {
-                    document.getElementById('hidden-data').value = typeof data === 'string' ? data : JSON.stringify(data);
-                    try { localStorage.setItem('stiat_positive_data', document.getElementById('hidden-data').value); } catch (e) {}
-                    console.log('Data logged:', data);
-                };
-                minnoJS.onEnd = function() {
-                    try {
-                        window.parent.postMessage({ name: 'stiatComplete', data: document.getElementById('hidden-data').value, done: true }, '*');
-                    } catch (e) {}
-                    alert("Thank you! You have completed the task. Please return to the survey.");
-                };
+
+            function notifyQualtrics(payload) {
+                try {
+                    if (window.parent && window.parent !== window.self) {
+                        window.parent.postMessage(payload, '*');
+                    }
+                } catch (e) {}
             }
+
+            setTimeout(function applyPostMessageWrapper() {
+                var origLogger = minnoJS.logger;
+                var origOnEnd = minnoJS.onEnd;
+
+                minnoJS.logger = function(value) {
+                    if (origLogger) try { origLogger(value); } catch (e) {}
+                    try {
+                        document.getElementById('hidden-data').value = typeof value === 'string' ? value : JSON.stringify(value);
+                        localStorage.setItem('stiat_positive_data', document.getElementById('hidden-data').value);
+                    } catch (e2) {}
+                    notifyQualtrics({ data: value });
+                };
+
+                minnoJS.onEnd = function() {
+                    if (origOnEnd) try { origOnEnd(); } catch (e) {}
+                    // Always tell Qualtrics to continue when we have a parent frame
+                    notifyQualtrics({
+                        name: 'stiatComplete',
+                        data: document.getElementById('hidden-data').value,
+                        done: true
+                    });
+                    // Alert only when opened as a standalone page (not inside Qualtrics)
+                    if (!isEmbedded) {
+                        alert("Thank you! You have completed the task. Please return to the survey.");
+                    }
+                };
+            }, 150);
         };
     </script>
 </body>
