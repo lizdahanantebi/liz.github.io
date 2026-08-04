@@ -1,4 +1,6 @@
-define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js?v=' + new Date().getTime()], function(APIConstructor, stiatExtension){
+// טוען את qstiat_custom מהתיקייה המקומית (ולא מ-GitHub Pages של main),
+// כדי שמעבר החלקים והתיקונים יישארו מסונכרנים אחרי deploy.
+define(['pipAPI', './qstiat_custom.js'], function(APIConstructor, stiatExtension){
     
     var API = new APIConstructor();
     
