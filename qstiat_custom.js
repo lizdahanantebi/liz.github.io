@@ -82,9 +82,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  css : {color:'#31b404','font-size':'2em'}
  }, 
  trialsByBlock : 
- [// 4 בלוקים: בלי תרגול Good/Bad הראשוני (הוסר לפי בקשת החוקרים)
+ [// 4 בלוקים: תרגול, מבחן, תרגול, מבחן
  {
- // בלוק 1: מיקס ראשון - אמונות טפלות עם Good/Bad
+ // בלוק 1: תרגול - אמונות טפלות עם Good/Bad (לא נכנס ל-D-score)
  instHTML : '', 
  block : 1, 
  miniBlocks : 2, // 2 מיני-בלוקים
@@ -93,7 +93,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
  }, 
  { 
- // בלוק 2: מיקס המשך
+ // בלוק 2: מבחן (כן נכנס ל-D-score)
  instHTML : '', 
  block : 2, 
  miniBlocks : 2, // 2 מיני-בלוקים
@@ -102,7 +102,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
  }, 
  { 
- // בלוק 3: החלפת צד
+ // בלוק 3: תרגול אחרי החלפת צד (לא נכנס ל-D-score)
  instHTML : '', 
  block : 3, 
  miniBlocks : 2, // 2 מיני-בלוקים
@@ -111,7 +111,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
  }, 
  { 
- // בלוק 4: מיקס אחרי החלפת צד
+ // בלוק 4: מבחן אחרי החלפת צד (כן נכנס ל-D-score)
  instHTML : '', 
  block : 4, 
  miniBlocks : 2, // 2 מיני-בלוקים
@@ -693,6 +693,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  );
  
  //We separate each block to mini blocks to reduce repetition of categories and responses.
+ // D-score: רק בלוקי מבחן (2 ו-4). בלוקי תרגול (1 ו-3) מסומנים parcel:'practice' ולא נכנסים לחישוב.
+ var scoreParcel = (iBlock === 2 || iBlock === 4) ? 'first' : 'practice';
  for (var iMini = 1; iMini <= piCurrent.trialsByBlock[iBlock-1].miniBlocks; iMini++)
  {//For each mini block
  var mixer = 
@@ -706,7 +708,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  data : 
  [{
  inherit : singleAttribute, 
- data : {condition : currentCondition, block : iBlock}, 
+ data : {condition : currentCondition, block : iBlock, parcel : scoreParcel}, 
  layout : blockLayout
  }]
  }, 
@@ -716,7 +718,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  data : 
  [{
  inherit : catAttribute, 
- data : {condition : currentCondition, block : iBlock}, 
+ data : {condition : currentCondition, block : iBlock, parcel : scoreParcel}, 
  layout : blockLayout
  }]
  } 
@@ -731,7 +733,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  data : 
  [{
  inherit : catTrialType, 
- data : {condition : currentCondition, block : iBlock}, 
+ data : {condition : currentCondition, block : iBlock, parcel : scoreParcel}, 
  layout : blockLayout
  }]
  }
@@ -783,6 +785,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  attribute1 + ',' + attribute2 + '/' + category
  ],
  parcelVar : "parcel", 
+ // רק parcel 'first' = בלוקים 2 ו-4 (מבחן). בלוקים 1 ו-3 הם 'practice' ולא נכללים.
  parcelValue : ['first'],
  fastRT : 150, 
  maxFastTrialsRate : 0.1, 
