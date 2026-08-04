@@ -17,7 +17,6 @@
     <script>
         window.onload = function() {
             var canvas = document.getElementById('canvas');
-            // So that Space bar goes to the task, not to an input (no "writing" on screen)
             document.getElementById('hidden-data').setAttribute('tabindex', '-1');
             document.body.setAttribute('tabindex', '-1');
             canvas.setAttribute('tabindex', '-1');
@@ -28,52 +27,47 @@
                 canvas.focus();
             }, 400);
 
-            // Prevent Space from scrolling the page (so it starts the task even without clicking first)
             document.addEventListener('keydown', function(e) {
                 if (e.key === ' ' || e.keyCode === 32) e.preventDefault();
             }, true);
 
-            // Run the ST-IAT
             minnoJS(canvas, 'https://lizdahanantebi.github.io/liz.github.io/negative-superstitions.js');
 
-            // When running inside iframe (Qualtrics) or with ?embed=1 – send data via postMessage, no alert
             var isEmbedded = (window.parent !== window.self) || (window.location.search.indexOf('embed=1') !== -1);
-            if (isEmbedded) {
-                // Apply wrapper after a short delay so we run after minnoJS/task script has set its logger/onEnd (we then wrap them)
-                setTimeout(function applyPostMessageWrapper() {
-                    var origLogger = minnoJS.logger;
-                    var origOnEnd = minnoJS.onEnd;
-                    minnoJS.logger = function(value) {
-                        if (origLogger) try { origLogger(value); } catch (e) {}
-                        window.parent.postMessage({ data: value }, '*');
-                    };
-                    minnoJS.onEnd = function() {
-                        if (origOnEnd) try { origOnEnd(); } catch (e) {}
-                        window.parent.postMessage({ done: true }, '*');
-                    };
-                }, 150);
-            } else {
-                // When opened directly (not in iframe) – save to form and localStorage, show alert at end
-                minnoJS.logger = function(data) {
-                    document.getElementById('hidden-data').value = typeof data === 'string' ? data : JSON.stringify(data);
-                    try {
-                        localStorage.setItem('stiat_negative_data', document.getElementById('hidden-data').value);
-                    } catch (e) {
-                        console.error('Failed to save data to localStorage', e);
+
+            function notifyQualtrics(payload) {
+                try {
+                    if (window.parent && window.parent !== window.self) {
+                        window.parent.postMessage(payload, '*');
                     }
-                    console.log('Data logged:', data);
-                };
-                minnoJS.onEnd = function() {
-                    try {
-                        window.parent.postMessage({
-                            name: 'stiatComplete',
-                            data: document.getElementById('hidden-data').value,
-                            done: true
-                        }, '*');
-                    } catch (e) {}
-                    alert("Thank you! You have completed the task. The data has been saved. Please close this window and return to the survey.");
-                };
+                } catch (e) {}
             }
+
+            setTimeout(function applyPostMessageWrapper() {
+                var origLogger = minnoJS.logger;
+                var origOnEnd = minnoJS.onEnd;
+
+                minnoJS.logger = function(value) {
+                    if (origLogger) try { origLogger(value); } catch (e) {}
+                    try {
+                        document.getElementById('hidden-data').value = typeof value === 'string' ? value : JSON.stringify(value);
+                        localStorage.setItem('stiat_negative_data', document.getElementById('hidden-data').value);
+                    } catch (e2) {}
+                    notifyQualtrics({ data: value });
+                };
+
+                minnoJS.onEnd = function() {
+                    if (origOnEnd) try { origOnEnd(); } catch (e) {}
+                    notifyQualtrics({
+                        name: 'stiatComplete',
+                        data: document.getElementById('hidden-data').value,
+                        done: true
+                    });
+                    if (!isEmbedded) {
+                        alert("Thank you! You have completed the task. The data has been saved. Please close this window and return to the survey.");
+                    }
+                };
+            }, 150);
         };
     </script>
 </body>
