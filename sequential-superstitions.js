@@ -1,4 +1,6 @@
-define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js?v=' + new Date().getTime()], function(APIConstructor, stiatExtension){
+// טוען את qstiat_custom מהתיקייה המקומית (ולא מ-GitHub Pages של main),
+// כדי שמעבר החלקים והתיקונים יישארו מסונכרנים אחרי deploy.
+define(['pipAPI', './qstiat_custom.js'], function(APIConstructor, stiatExtension){
     
     var API = new APIConstructor();
     
@@ -13,7 +15,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     // הגדרת קונפיגורציות למבחנים
     var positiveConfig = {
         category : {
-            name : 'Superstitions',
+            name : 'Positive Superstitions',
             title : {
                 media : {word : 'Superstitions'},
                 css : {color:'#0066cc','font-size':'2em'},
@@ -24,7 +26,6 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 {image : 'P_penny.png'},
                 {image : 'P_crossedfingers.png'},
                 {image : 'P_clover.png'},
-                {image : 'P_dice.png'},
                 {image : 'P_clothes.png'}
             ],
             css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
@@ -65,7 +66,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     
     var negativeConfig = {
         category : { 
-            name : 'Superstitions',
+            name : 'Negative Superstitions',
             title : {
                 media : {word : 'Superstitions'},
                 css : {color:'#0066cc','font-size':'2em'},
@@ -76,7 +77,6 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 {image : 'N_brokenmirror.png'}, 
                 {image : 'N_ladder.png'}, 
                 {image : 'N_friday.png'},
-                {image : 'N_umbrella.png'},
                 {image : 'N_knockonwood.png'}
             ], 
             css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
@@ -120,6 +120,8 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
         base_url : {
             image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
         },
+        // החלפת צד בבלוק ה-3 של כל Condition (כמו במבחנים הבודדים)
+        switchSideBlock : 3,
         // הגדרת 8 בלוקים במקום 4
         trialsByBlock : [
             // בלוק 1 - תרגול

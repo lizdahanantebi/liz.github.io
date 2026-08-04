@@ -588,6 +588,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  firstCatSide = (Math.random() < 0.5) ? 'rightCat' : 'leftCat';
  }
  
+ // בתוך כל Condition, באיזה בלוק (יחסי לתחילת ה-Condition) מחליפים צד.
+ // ברירת מחדל: switchSideBlock מההגדרות (למשל 3 = החלפה בבלוק השלישי של כל חלק).
+ var sideSwitchOffset = (piCurrent.switchSideBlock > 0) ? piCurrent.switchSideBlock : 0;
+
  var catSide = '';
  for (var iBlock = 1; iBlock <= piCurrent.trialsByBlock.length; iBlock++)
  {//For each block
@@ -597,6 +601,12 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  var currentAttr1 = useSecondCondition ? attribute1_2 : attribute1;
  var currentAttr2 = useSecondCondition ? attribute2_2 : attribute2;
  var currentCategory = useSecondCondition ? category_2 : category;
+
+ // בתחילת החלק השני מאפסים את צד הקטגוריה כדי שכל Condition יתחיל מאותו צד
+ if (useSecondCondition && iBlock === switchBlock)
+ {
+ catSide = '';
+ }
 
  var isPrac = false;
  var currentCondition = '';
@@ -609,9 +619,13 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  {//This is not practice, and we should not switch sides, but the category side has has never been set.
  catSide = firstCatSide;
  }
- else if (piCurrent.switchSideBlock == iBlock //Switch category once, on this block
- || piCurrent.switchSideBlock <= 0 //Switch layout every block
- )
+ else
+ {
+ // החלפת צד פעם אחת בכל Condition: בבלוק היחסי שנבחר ב-switchSideBlock
+ var blockIndexInCondition = useSecondCondition ? (iBlock - switchBlock + 1) : iBlock;
+ var shouldSwitchSide = (sideSwitchOffset > 0 && blockIndexInCondition === sideSwitchOffset) ||
+  (piCurrent.switchSideBlock <= 0); // Switch layout every block
+ if (shouldSwitchSide)
  {//Switch layout
  if (catSide == 'rightCat')
  {
@@ -620,6 +634,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  else if (catSide == 'leftCat')
  {
  catSide = 'rightCat';
+ }
  }
  }
 
@@ -764,10 +779,16 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  scorer.addSettings('compute',{
  ErrorVar:'score',
  condVar:'condition',
- cond1VarValues: [
+ cond1VarValues: otherConfig ? [
+ category + '/' + attribute1 + ',' + attribute2,
+ category_2 + '/' + attribute1_2 + ',' + attribute2_2
+ ] : [
  category + '/' + attribute1 + ',' + attribute2
  ],
- cond2VarValues: [ 
+ cond2VarValues: otherConfig ? [
+ attribute1 + ',' + attribute2 + '/' + category,
+ attribute1_2 + ',' + attribute2_2 + '/' + category_2
+ ] : [
  attribute1 + ',' + attribute2 + '/' + category
  ],
  parcelVar : "parcel", 
@@ -871,6 +892,10 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  piCurrent.feedback = DScoreObj.FBMsg;
  piCurrent.d = DScoreObj.DScore;
  API.save({prolific_id: prolific_id, block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+ // מאפשר ל-wrapper (למשל combined-superstitions) לעדכן משתנה מעבר בין חלקים
+ if (typeof piCurrent.onTaskEnd === 'function') {
+ try { piCurrent.onTaskEnd(); } catch (e) { console.error('onTaskEnd failed', e); }
+ }
  if (typeof window.minnoJS !== 'undefined' && window.minnoJS.onEnd) {
  window.minnoJS.onEnd();
  console.log('✅ Called minnoJS.onEnd()');

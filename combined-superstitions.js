@@ -1,38 +1,42 @@
-define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js?v=' + new Date().getTime()], function(APIConstructor, stiatExtension){
+define(['pipAPI', './qstiat_custom.js'], function(APIConstructor, stiatExtension){
     
     var API = new APIConstructor();
     
-    // זיהוי איזה מבחן זה לפי זמן ו-sessionStorage
+    // מעבר בין שני חלקי ה-SC-IAT (חיובי/שלילי).
+    // חשוב: לא סומכים רק על שעון/onTaskEnd — גם מונים טעינות של ה-wrapper
+    // (כשקוואלטריקס טוען את אותו סקריפט בשתי שאלות רצופות).
+    var PART_DONE_KEY = 'superstitions_first_done';
+    var RUN_KEY = 'superstitions_run_count';
+    var LOAD_TS_KEY = 'superstitions_last_load_ts';
+
+    var firstDone = sessionStorage.getItem(PART_DONE_KEY) === 'true';
+    var runs = parseInt(sessionStorage.getItem(RUN_KEY) || '0', 10);
+    var now = Date.now();
+    var lastLoad = parseInt(sessionStorage.getItem(LOAD_TS_KEY) || '0', 10);
+    // הגנה מפני double-init מהיר של אותו עמוד
+    var isReplayOfSameLoad = lastLoad && (now - lastLoad) < 1500;
+
     var testType;
-    var lastTestTime = sessionStorage.getItem('lastTestTime');
-    var currentTime = new Date().getTime();
-    
-    if (!lastTestTime) {
-        // זה המבחן הראשון
-        testType = 'first';
-        sessionStorage.setItem('lastTestTime', currentTime);
-        console.log('🎯 This is the FIRST test (no previous test found)');
+    if (firstDone || (runs >= 1 && !isReplayOfSameLoad)) {
+        testType = 'second';
     } else {
-        var timeDiff = currentTime - parseInt(lastTestTime);
-        if (timeDiff < 30000) { // 30 שניות
-            // זה כנראה refresh של אותו מבחן
-            testType = 'first';
-            console.log('🔄 This seems like a refresh of the first test (time diff: ' + timeDiff + 'ms)');
-        } else {
-            // זה המבחן השני
-            testType = 'second';
-            console.log('🎯 This is the SECOND test (time diff: ' + timeDiff + 'ms)');
-        }
+        testType = 'first';
     }
-    
-    console.log('🎯 Starting combined wrapper with testType:', testType);
-    console.log('🔍 Debugging - orderObj:', orderObj);
-    console.log('🔍 Debugging - actualTest will be:', testType === 'first' ? orderObj.first : orderObj.second);
+
+    if (!isReplayOfSameLoad) {
+        sessionStorage.setItem(RUN_KEY, String(runs + 1));
+        sessionStorage.setItem(LOAD_TS_KEY, String(now));
+    }
+
+    console.log('🎯 Starting combined wrapper with testType:', testType, {
+        firstDone: firstDone,
+        runs: runs,
+        isReplayOfSameLoad: isReplayOfSameLoad
+    });
     
     // בדיקה/יצירה של סדר המבחנים
     var testOrder = sessionStorage.getItem('superstitions_test_order');
     if (!testOrder) {
-        // רנדומיזציה חדשה - איזה מבחן יהיה ראשון
         var firstTest = Math.random() < 0.5 ? 'positive' : 'negative';
         var secondTest = firstTest === 'positive' ? 'negative' : 'positive';
         testOrder = JSON.stringify({
@@ -46,34 +50,41 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     var orderObj = JSON.parse(testOrder);
     console.log('📋 Current order:', orderObj);
     
-    // קביעה איזה מבחן להריץ
     var actualTest;
     if (testType === 'first') {
         actualTest = orderObj.first;
     } else if (testType === 'second') {
         actualTest = orderObj.second;
     } else {
-        // אם לא נתן פרמטר, נריץ רנדומלי
         actualTest = Math.random() < 0.5 ? 'positive' : 'negative';
     }
     
     console.log('✨ Running test:', actualTest, 'for position:', testType);
     
-    // ניקוי מלא של המערכת לפני הפעלת המבחן
-    console.log('🧹 Cleaning up previous test data...');
+    function markPartTransition() {
+        if (testType === 'first') {
+            sessionStorage.setItem(PART_DONE_KEY, 'true');
+            console.log('✅ First SC-IAT part marked done; next load will run second part');
+        } else {
+            sessionStorage.removeItem(PART_DONE_KEY);
+            sessionStorage.removeItem(RUN_KEY);
+            sessionStorage.removeItem(LOAD_TS_KEY);
+            sessionStorage.removeItem('superstitions_test_order');
+            sessionStorage.removeItem('lastTestTime');
+            console.log('✅ Second SC-IAT part finished; session order cleared');
+        }
+    }
+
+    // לא מוחקים את minnoJS — זה שבר את onEnd/logger וגרם למעבר לא לרוץ.
+    // עוטפים את onEnd כדי לסמן סיום גם אם onTaskEnd ב-qstiat_custom לא זמין (גרסה ישנה ב-cache).
     if (typeof window.minnoJS !== 'undefined') {
-        delete window.minnoJS;
-    }
-    if (typeof window.piGlobal !== 'undefined') {
-        delete window.piGlobal;
-    }
-    // ניקוי כל המודולים של RequireJS
-    if (typeof requirejs !== 'undefined' && requirejs.s && requirejs.s.contexts) {
-        Object.keys(requirejs.s.contexts).forEach(function(key) {
-            if (key !== '_') {
-                delete requirejs.s.contexts[key];
+        var prevOnEnd = window.minnoJS.onEnd;
+        window.minnoJS.onEnd = function() {
+            try { markPartTransition(); } catch (e) { console.error('markPartTransition failed', e); }
+            if (typeof prevOnEnd === 'function') {
+                try { prevOnEnd.apply(this, arguments); } catch (e2) { console.error('prevOnEnd failed', e2); }
             }
-        });
+        };
     }
     
     // הגדרת קונפיגורציה לפי סוג המבחן
@@ -83,7 +94,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
         console.log('🌟 Configuring POSITIVE superstitions test');
         config = {
             category : {
-                name : 'Superstitions',
+                name : 'Positive Superstitions',
                 title : {
                     media : {word : 'Superstitions'},
                     css : {color:'#0066cc','font-size':'2em'},
@@ -94,7 +105,6 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                     {image : 'P_penny.png'},
                     {image : 'P_crossedfingers.png'},
                     {image : 'P_clover.png'},
-                    {image : 'P_dice.png'},
                     {image : 'P_clothes.png'}
                 ],
                 css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
@@ -139,7 +149,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
         console.log('🌑 Configuring NEGATIVE superstitions test');
         config = {
             category : { 
-                name : 'Superstitions',
+                name : 'Negative Superstitions',
                 title : {
                     media : {word : 'Superstitions'},
                     css : {color:'#0066cc','font-size':'2em'},
@@ -150,7 +160,6 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                     {image : 'N_brokenmirror.png'}, 
                     {image : 'N_ladder.png'}, 
                     {image : 'N_friday.png'},
-                    {image : 'N_umbrella.png'},
                     {image : 'N_knockonwood.png'}
                 ], 
                 css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
@@ -192,61 +201,9 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
             }
         };
     }
+
+    // גיבוי: גם דרך hook פנימי של qstiat_custom (כשהגרסה המעודכנת נטענת)
+    config.onTaskEnd = markPartTransition;
     
-    // הוספת logger מותאם אישית
-    API.addSettings('logger', {
-        onRow: function(logName, log, settings, ctx){
-            if (!ctx.logs) ctx.logs = [];
-            ctx.logs.push(log);
-        },
-        onEnd: function(name, settings, ctx){
-            var csvData = 'block,trial,latency,correct,stimulus,category\n';
-            if (ctx.logs) {
-                csvData += ctx.logs.map(function(log) {
-                    return [
-                        log.block || '',
-                        log.trial || '',
-                        log.latency || '',
-                        log.correct || '',
-                        log.stimulus || '',
-                        log.category || ''
-                    ].join(',');
-                }).join('\n');
-            }
-
-            console.log('📊 Data collected for', actualTest, 'test:', csvData);
-
-            // שליחה לקוואלטריקס
-            if (typeof window.minnoJS !== 'undefined' && window.minnoJS.logger) {
-                window.minnoJS.logger(csvData);
-                console.log('✅ Data sent to Qualtrics via minnoJS.logger');
-            }
-
-            // גיבוי מקומי
-            try {
-                var storageKey = actualTest === 'positive' ? 'stiat_positive_data' : 'stiat_negative_data';
-                localStorage.setItem(storageKey, csvData);
-                console.log('💾 Data saved to localStorage with key:', storageKey);
-            } catch(e) {
-                console.error('Error saving to localStorage:', e);
-            }
-
-            // גיבוי נוסף
-            try {
-                window.parent.postMessage({
-                    name: 'stiatComplete',
-                    data: csvData,
-                    testType: actualTest
-                }, '*');
-                console.log('📨 Data sent via postMessage');
-            } catch(e) {
-                console.error('Error sending to parent:', e);
-            }
-
-            return csvData;
-        }
-    });
-    
-    // קריאה ל-stiatExtension עם הקונפיגורציה הנכונה
     return stiatExtension(config);
 });

@@ -1,4 +1,4 @@
-define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.js?v=positive'], function(APIConstructor, stiatExtension){
+define(['pipAPI', './qstiat_custom.js'], function(APIConstructor, stiatExtension){
 
     var API = new APIConstructor();
 
@@ -65,7 +65,6 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
                 {image : 'P_penny.png'},
                 {image : 'P_crossedfingers.png'},
                 {image : 'P_clover.png'},
-                {image : 'P_dice.png'},
                 {image : 'P_clothes.png'}
             ],
             css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
