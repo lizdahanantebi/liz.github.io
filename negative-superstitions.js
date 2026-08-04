@@ -1,4 +1,4 @@
-define(['pipAPI', './qstiat_custom.js?v=20260804-parcel'], function(APIConstructor, stiatExtension){
+define(['pipAPI', './qstiat_custom.js?v=20260804-folk'], function(APIConstructor, stiatExtension){
 	
 	var API = new APIConstructor();
 	
@@ -55,9 +55,9 @@ define(['pipAPI', './qstiat_custom.js?v=20260804-parcel'], function(APIConstruct
 	
 	return stiatExtension({
 		category : { 
-			name : 'Superstitions',
+			name : 'Folk beliefs',
 			title : {
-				media : {word : 'Superstitions'},
+				media : {word : 'Folk beliefs'},
 				css : {color:'#0066cc','font-size':'2em'}, // כחול
 				height : 7
 			}, 
