@@ -839,7 +839,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
      return ctx.logs;
    },
    serialize: function(name, logs) {
-     var headers = ['block', 'trial', 'cond', 'type', 'cat', 'stim', 'resp', 'err', 'rt'];
+     var headers = ['block', 'trial', 'cond', 'type', 'cat', 'stim', 'resp', 'err', 'rt', 'parcel'];
      var hasProps = function(obj, props) {
        for (var i = 0; i < props.length; i++) if (!obj || !obj.hasOwnProperty(props[i])) return false;
        return true;
@@ -858,7 +858,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
            (log.media && log.media[0]) != null ? log.media[0] : '',
            log.responseHandle != null ? log.responseHandle : '',
            log.data.score,
-           log.latency != null ? log.latency : ''
+           log.latency != null ? log.latency : '',
+           log.data.parcel != null ? log.data.parcel : ''
          ]);
        }
      }
