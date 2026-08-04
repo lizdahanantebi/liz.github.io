@@ -1,4 +1,4 @@
-define(['pipAPI', './qstiat_custom.js'], function(APIConstructor, stiatExtension){
+define(['pipAPI', './qstiat_custom.js?v=20260804-4blocks'], function(APIConstructor, stiatExtension){
 
     var API = new APIConstructor();
 
