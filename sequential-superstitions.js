@@ -13,7 +13,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     // הגדרת קונפיגורציות למבחנים
     var positiveConfig = {
         category : {
-            name : 'Superstitions',
+            name : 'Positive Superstitions',
             title : {
                 media : {word : 'Superstitions'},
                 css : {color:'#0066cc','font-size':'2em'},
@@ -65,7 +65,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     
     var negativeConfig = {
         category : { 
-            name : 'Superstitions',
+            name : 'Negative Superstitions',
             title : {
                 media : {word : 'Superstitions'},
                 css : {color:'#0066cc','font-size':'2em'},
@@ -120,6 +120,8 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
         base_url : {
             image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
         },
+        // החלפת צד בבלוק ה-3 של כל Condition (כמו במבחנים הבודדים)
+        switchSideBlock : 3,
         // הגדרת 8 בלוקים במקום 4
         trialsByBlock : [
             // בלוק 1 - תרגול

@@ -2,32 +2,13 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     
     var API = new APIConstructor();
     
-    // זיהוי איזה מבחן זה לפי זמן ו-sessionStorage
-    var testType;
-    var lastTestTime = sessionStorage.getItem('lastTestTime');
-    var currentTime = new Date().getTime();
-    
-    if (!lastTestTime) {
-        // זה המבחן הראשון
-        testType = 'first';
-        sessionStorage.setItem('lastTestTime', currentTime);
-        console.log('🎯 This is the FIRST test (no previous test found)');
-    } else {
-        var timeDiff = currentTime - parseInt(lastTestTime);
-        if (timeDiff < 30000) { // 30 שניות
-            // זה כנראה refresh של אותו מבחן
-            testType = 'first';
-            console.log('🔄 This seems like a refresh of the first test (time diff: ' + timeDiff + 'ms)');
-        } else {
-            // זה המבחן השני
-            testType = 'second';
-            console.log('🎯 This is the SECOND test (time diff: ' + timeDiff + 'ms)');
-        }
-    }
+    // זיהוי איזה מבחן זה לפי דגל השלמה ב-sessionStorage.
+    // באג קודם: lastTestTime נשמר רק בתחילת החלק הראשון ולא עודכן בסיום,
+    // ולכן בטעינה הבאה testType נשאר 'first' והחלק הראשון רץ שוב.
+    var PART_DONE_KEY = 'superstitions_first_done';
+    var testType = sessionStorage.getItem(PART_DONE_KEY) === 'true' ? 'second' : 'first';
     
     console.log('🎯 Starting combined wrapper with testType:', testType);
-    console.log('🔍 Debugging - orderObj:', orderObj);
-    console.log('🔍 Debugging - actualTest will be:', testType === 'first' ? orderObj.first : orderObj.second);
     
     // בדיקה/יצירה של סדר המבחנים
     var testOrder = sessionStorage.getItem('superstitions_test_order');
@@ -58,6 +39,7 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
     }
     
     console.log('✨ Running test:', actualTest, 'for position:', testType);
+    console.log('🔍 actualTest resolved to:', actualTest, 'from order:', orderObj);
     
     // ניקוי מלא של המערכת לפני הפעלת המבחן
     console.log('🧹 Cleaning up previous test data...');
@@ -247,6 +229,19 @@ define(['pipAPI', 'https://lizdahanantebi.github.io/liz.github.io/qstiat_custom.
         }
     });
     
+    // בסיום החלק הראשון מעדכנים את הדגל כדי שבטעינה הבאה ירוץ החלק השני
+    config.onTaskEnd = function() {
+        if (testType === 'first') {
+            sessionStorage.setItem(PART_DONE_KEY, 'true');
+            console.log('✅ First SC-IAT part marked done; next load will run second part');
+        } else {
+            sessionStorage.removeItem(PART_DONE_KEY);
+            sessionStorage.removeItem('superstitions_test_order');
+            sessionStorage.removeItem('lastTestTime');
+            console.log('✅ Second SC-IAT part finished; session order cleared');
+        }
+    };
+
     // קריאה ל-stiatExtension עם הקונפיגורציה הנכונה
     return stiatExtension(config);
 });
