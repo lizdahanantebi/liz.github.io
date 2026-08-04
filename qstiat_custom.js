@@ -82,18 +82,18 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  css : {color:'#31b404','font-size':'2em'}
  }, 
  trialsByBlock : 
- [//Each object in this array defines a block - מותאם לקוד המקורי של בר ענן
+ [// 4 בלוקים: בלי תרגול Good/Bad הראשוני (הוסר לפי בקשת החוקרים)
  {
- // בלוק 1: אימון - רק Good/Bad ללא אמונות טפלות
- instHTML : '', //Empty means we will create the inst from the instTemplate variable further below. 
- block : 1, //The block variable is not used later, but could help the user. 
- miniBlocks : 1, //Set to 1 if don't need mini blocks. 0 will break the task.
- singleAttTrials : 10, //Number of trials of Bad (left)
- sharedAttTrials : 10, //Number of trials of Good (right)
- categoryTrials : 0 // אין אמונות טפלות בבלוק האימון = 20 חזרות
- },
- {
- // בלוק 2: מיקס ראשון - מותאם לבר ענן
+ // בלוק 1: מיקס ראשון - אמונות טפלות עם Good/Bad
+ instHTML : '', 
+ block : 1, 
+ miniBlocks : 2, // 2 מיני-בלוקים
+ singleAttTrials : 10, // 10×2 = 20
+ sharedAttTrials : 7, // 7×2 = 14
+ categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
+ }, 
+ { 
+ // בלוק 2: מיקס המשך
  instHTML : '', 
  block : 2, 
  miniBlocks : 2, // 2 מיני-בלוקים
@@ -102,7 +102,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
  }, 
  { 
- // בלוק 3: מיקס המשך - מותאם לבר ענן
+ // בלוק 3: החלפת צד
  instHTML : '', 
  block : 3, 
  miniBlocks : 2, // 2 מיני-בלוקים
@@ -111,18 +111,9 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
  }, 
  { 
- // בלוק 4: החלפת צד - מותאם לבר ענן
+ // בלוק 4: מיקס אחרי החלפת צד
  instHTML : '', 
  block : 4, 
- miniBlocks : 2, // 2 מיני-בלוקים
- singleAttTrials : 10, // 10×2 = 20
- sharedAttTrials : 7, // 7×2 = 14
- categoryTrials : 7 // 7×2 = 14, סה"כ 48 חזרות
- }, 
- { 
- // בלוק 5: מיקס סופי - מותאם לבר ענן
- instHTML : '', 
- block : 5, 
  miniBlocks : 2, // 2 מיני-בלוקים
  singleAttTrials : 10, // 10×2 = 20
  sharedAttTrials : 7, // 7×2 = 14
@@ -140,7 +131,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
 
  //If the switch parameter is 0 or smaller, we switch the side of the category every block. 
  //If it is larger than 0, then we switch the category side only once, in the block specified in switchSideBlock.
- switchSideBlock : 4, //שונה ל-4 כי עכשיו יש 5 בלוקים - עוברים צד בבלוק 4
+ switchSideBlock : 3, // החלפת צד בבלוק 3 (אחרי הסרת בלוק התרגול הישן)
 
  base_url : {//Where are your images?
  image : '/implicit/user/yba/pipexample/stiat/images/'
