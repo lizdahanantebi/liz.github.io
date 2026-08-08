@@ -65,16 +65,26 @@
                 minnoJS.onEnd = function() {
                     if (origOnEnd) try { origOnEnd(); } catch (e) {}
                     if (doneSent) return;
-                    doneSent = true;
-                    // Always tell Qualtrics to continue when we have a parent frame
-                    notifyQualtrics({
-                        name: 'stiatComplete',
-                        data: document.getElementById('hidden-data').value,
-                        done: true
-                    });
-                    // Alert only when opened as a standalone page (not inside Qualtrics)
-                    if (!isEmbedded) {
-                        alert("Thank you! You have completed the task. Please return to the survey.");
+
+                    // Prefer sending done after logger has filled hidden-data,
+                    // so Qualtrics receives data and done together when possible.
+                    function sendDone() {
+                        if (doneSent) return;
+                        doneSent = true;
+                        notifyQualtrics({
+                            name: 'stiatComplete',
+                            data: document.getElementById('hidden-data').value,
+                            done: true
+                        });
+                        if (!isEmbedded) {
+                            alert("Thank you! You have completed the task. Please return to the survey.");
+                        }
+                    }
+
+                    if (document.getElementById('hidden-data').value) {
+                        sendDone();
+                    } else {
+                        setTimeout(sendDone, 150);
                     }
                 };
             }, 150);
