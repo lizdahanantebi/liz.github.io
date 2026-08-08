@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SC-IAT data smoke test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 16px; }
+        .row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+        button { padding: 8px 12px; cursor: pointer; }
+        iframe { width: 100%; min-height: 620px; border: 1px solid #ccc; }
+        pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 12px;
+            min-height: 80px;
+        }
+        .ok { color: #0a7a2f; font-weight: bold; }
+        .bad { color: #a10000; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>SC-IAT data smoke test</h1>
+    <p>Use this page to check that the iframe sends data back — without running the full Qualtrics survey.</p>
+
+    <div class="row">
+        <button type="button" id="btn-positive">Load positive</button>
+        <button type="button" id="btn-negative">Load negative</button>
+        <span id="status">No messages yet.</span>
+    </div>
+
+    <iframe id="frame" title="SC-IAT"></iframe>
+
+    <h2>Last message</h2>
+    <pre id="out">(waiting)</pre>
+
+    <script>
+        var frame = document.getElementById('frame');
+        var out = document.getElementById('out');
+        var status = document.getElementById('status');
+        var base = 'https://lizdahanantebi.github.io/liz.github.io/';
+        var version = 'v=20260804-folk';
+
+        function load(which) {
+            out.textContent = '(waiting for messages from ' + which + ')';
+            status.textContent = 'Loaded ' + which + '. Complete the task to test data.';
+            status.className = '';
+            frame.src = base + which + '-superstitions.html?embed=1&' + version;
+        }
+
+        document.getElementById('btn-positive').onclick = function () { load('positive'); };
+        document.getElementById('btn-negative').onclick = function () { load('negative'); };
+
+        window.addEventListener('message', function (event) {
+            if (!event.data) return;
+            out.textContent = JSON.stringify(event.data, null, 2);
+
+            var hasData = event.data.data !== undefined && event.data.data !== null && event.data.data !== '';
+            if (hasData) {
+                status.textContent = 'DATA received' + (event.data.done ? ' + done' : '');
+                status.className = 'ok';
+            } else if (event.data.done) {
+                status.textContent = 'done received, but data was empty';
+                status.className = 'bad';
+            }
+        });
+    </script>
+</body>
+</html>
