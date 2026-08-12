@@ -1,4 +1,4 @@
-define(['pipAPI', './qstiat_custom.js?v=20260812-instblack'], function(APIConstructor, stiatExtension){
+define(['pipAPI', './qstiat_custom.js?v=20260812-labelsize'], function(APIConstructor, stiatExtension){
 
     var API = new APIConstructor();
 
@@ -57,7 +57,7 @@ define(['pipAPI', './qstiat_custom.js?v=20260812-instblack'], function(APIConstr
             name : 'Folk beliefs',
             title : {
                 media : {word : 'Folk beliefs'},
-                css : {color:'#000000','font-size':'2em','font-weight':'bold'},
+                css : {color:'#000000','font-size':'1.6em','font-weight':'bold'},
                 height : 7
             },
             media : [
@@ -73,7 +73,7 @@ define(['pipAPI', './qstiat_custom.js?v=20260812-instblack'], function(APIConstr
             name : 'Bad',
             title : {
                 media : {word : 'Bad'},
-                css : {color:'#000000','font-size':'2em','font-weight':'bold'},
+                css : {color:'#000000','font-size':'1.6em','font-weight':'bold'},
                 height : 7
             },
             media : [
@@ -89,7 +89,7 @@ define(['pipAPI', './qstiat_custom.js?v=20260812-instblack'], function(APIConstr
             name : 'Good',
             title : {
                 media : {word : 'Good'},
-                css : {color:'#000000','font-size':'2em','font-weight':'bold'},
+                css : {color:'#000000','font-size':'1.6em','font-weight':'bold'},
                 height : 7
             },
             media : [
