@@ -1,4 +1,4 @@
-define(['pipAPI', './qstiat_custom.js?v=20260804-folk'], function(APIConstructor, stiatExtension){
+define(['pipAPI', './qstiat_custom.js?v=20260812-black'], function(APIConstructor, stiatExtension){
 
     var API = new APIConstructor();
 
@@ -57,7 +57,7 @@ define(['pipAPI', './qstiat_custom.js?v=20260804-folk'], function(APIConstructor
             name : 'Folk beliefs',
             title : {
                 media : {word : 'Folk beliefs'},
-                css : {color:'#0066cc','font-size':'2em'},
+                css : {color:'#000000','font-size':'2em','font-weight':'bold'},
                 height : 7
             },
             media : [
@@ -67,13 +67,13 @@ define(['pipAPI', './qstiat_custom.js?v=20260804-folk'], function(APIConstructor
                 {image : 'P_clover.png'},
                 {image : 'P_clothes.png'}
             ],
-            css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #0066cc'}
+            css : {color:'#0066cc','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #000000'}
         },
         attribute1 : {
             name : 'Bad',
             title : {
                 media : {word : 'Bad'},
-                css : {color:'#31b404','font-size':'2em'},
+                css : {color:'#000000','font-size':'2em','font-weight':'bold'},
                 height : 7
             },
             media : [
@@ -83,13 +83,13 @@ define(['pipAPI', './qstiat_custom.js?v=20260804-folk'], function(APIConstructor
                 {image: 'N_sad.png'},
                 {image: 'N_fire.png'}
             ],
-            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'}
+            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #000000'}
         },
         attribute2 : {
             name : 'Good',
             title : {
                 media : {word : 'Good'},
-                css : {color:'#31b404','font-size':'2em'},
+                css : {color:'#000000','font-size':'2em','font-weight':'bold'},
                 height : 7
             },
             media : [
@@ -99,7 +99,7 @@ define(['pipAPI', './qstiat_custom.js?v=20260804-folk'], function(APIConstructor
                 {image: 'P_smile.png'},
                 {image: 'P_sun.png'}
             ],
-            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #31b404'}
+            css : {color:'#31b404','font-size':'3em', 'max-width':'200px', 'max-height':'200px', width:'200px', height:'200px', border:'3px solid #000000'}
         },
         base_url : {
             image : 'https://raw.githubusercontent.com/lizdahanantebi/liz.github.io/main/superstition_images/'
