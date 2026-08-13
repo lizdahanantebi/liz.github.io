@@ -217,6 +217,20 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  // extend the current object with the default
  _.defaults(piCurrent, options, stiatObj);
 
+ // Between-subjects: which side Good appears on (E=left, I=right).
+ // Default 'right' keeps current behavior: Bad on E, Good on I.
+ // When 'left': swap attribute objects so Good is on E and Bad on I.
+ // D-score cond1/cond2 are adjusted below so positive D still = association with Good.
+ var goodSide = String(piCurrent.goodSide || query.get('goodSide') || 'right').toLowerCase();
+ if (goodSide !== 'left' && goodSide !== 'right') goodSide = 'right';
+ piCurrent.goodSide = goodSide;
+ var goodOnLeft = (goodSide === 'left');
+ if (goodOnLeft) {
+  var swappedAttribute = piCurrent.attribute1;
+  piCurrent.attribute1 = piCurrent.attribute2;
+  piCurrent.attribute2 = swappedAttribute;
+ }
+
  // ----- SC-IAT: תמיכה בהחלפת Condition בין בלוקים (חיובי/שלילי) -----
  var switchBlock = piCurrent.switchToNegativeAtBlock || piCurrent.switchToPositiveAtBlock || 0;
  var otherConfig = piCurrent.negativeConfig || piCurrent.positiveConfig || null;
@@ -769,21 +783,44 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  **/
  
  //Settings for the score computation.
+ // cond2 = category paired with Good (positive D = positive attitude toward category).
+ // When Good is on the left, attribute objects were swapped, so the pairing strings flip.
+ var condCategoryWithBad = goodOnLeft ? [
+  attribute1 + ',' + attribute2 + '/' + category
+ ] : [
+  category + '/' + attribute1 + ',' + attribute2
+ ];
+ var condCategoryWithGood = goodOnLeft ? [
+  category + '/' + attribute1 + ',' + attribute2
+ ] : [
+  attribute1 + ',' + attribute2 + '/' + category
+ ];
+ if (otherConfig) {
+  if (goodOnLeft) {
+   condCategoryWithBad = [
+    attribute1 + ',' + attribute2 + '/' + category,
+    attribute1_2 + ',' + attribute2_2 + '/' + category_2
+   ];
+   condCategoryWithGood = [
+    category + '/' + attribute1 + ',' + attribute2,
+    category_2 + '/' + attribute1_2 + ',' + attribute2_2
+   ];
+  } else {
+   condCategoryWithBad = [
+    category + '/' + attribute1 + ',' + attribute2,
+    category_2 + '/' + attribute1_2 + ',' + attribute2_2
+   ];
+   condCategoryWithGood = [
+    attribute1 + ',' + attribute2 + '/' + category,
+    attribute1_2 + ',' + attribute2_2 + '/' + category_2
+   ];
+  }
+ }
  scorer.addSettings('compute',{
  ErrorVar:'score',
  condVar:'condition',
- cond1VarValues: otherConfig ? [
- category + '/' + attribute1 + ',' + attribute2,
- category_2 + '/' + attribute1_2 + ',' + attribute2_2
- ] : [
- category + '/' + attribute1 + ',' + attribute2
- ],
- cond2VarValues: otherConfig ? [
- attribute1 + ',' + attribute2 + '/' + category,
- attribute1_2 + ',' + attribute2_2 + '/' + category_2
- ] : [
- attribute1 + ',' + attribute2 + '/' + category
- ],
+ cond1VarValues: condCategoryWithBad,
+ cond2VarValues: condCategoryWithGood,
  parcelVar : "parcel", 
  // רק parcel 'first' = בלוקים 2 ו-4 (מבחן). בלוקים 1 ו-3 הם 'practice' ולא נכללים.
  parcelValue : ['first'],
@@ -869,7 +906,8 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
        rawData: rawDataCsv,
        dScore: piCurrent.d != null ? piCurrent.d : '',
        feedback: piCurrent.feedback != null ? piCurrent.feedback : '',
-       block2Condition: block2Condition != null ? block2Condition : ''
+       block2Condition: block2Condition != null ? block2Condition : '',
+       goodSide: piCurrent.goodSide != null ? piCurrent.goodSide : 'right'
      };
      return JSON.stringify(payload);
    },
@@ -886,7 +924,7 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
  var DScoreObj = scorer.computeD();
  piCurrent.feedback = DScoreObj.FBMsg;
  piCurrent.d = DScoreObj.DScore;
- API.save({prolific_id: prolific_id, block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore});
+ API.save({prolific_id: prolific_id, block2Condition:block2Condition, feedback:DScoreObj.FBMsg, d: DScoreObj.DScore, goodSide: piCurrent.goodSide});
  // מאפשר ל-wrapper (למשל combined-superstitions) לעדכן משתנה מעבר בין חלקים
  if (typeof piCurrent.onTaskEnd === 'function') {
  try { piCurrent.onTaskEnd(); } catch (e) { console.error('onTaskEnd failed', e); }
