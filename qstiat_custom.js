@@ -883,6 +883,17 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
      };
      var rows = [];
      var i, log;
+     var minRT = 400;
+     var maxRT = 1500;
+     var badCondMap = {};
+     var goodCondMap = {};
+     for (i = 0; i < condCategoryWithBad.length; i++) badCondMap[condCategoryWithBad[i]] = true;
+     for (i = 0; i < condCategoryWithGood.length; i++) goodCondMap[condCategoryWithGood[i]] = true;
+     var badRTs = [];
+     var goodRTs = [];
+     var nExcludedFast = 0;
+     var nExcludedSlow = 0;
+
      for (i = 0; i < (logs && logs.length) || 0; i++) {
        log = logs[i];
        if (log && log.data && hasProps(log.data, ['block', 'condition', 'score'])) {
@@ -898,8 +909,41 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
            log.latency != null ? log.latency : '',
            log.data.parcel != null ? log.data.parcel : ''
          ]);
+
+         // Summary stats for researchers (same inclusion rules as D-score)
+         if (log.data.parcel === 'first' && log.latency != null && !isNaN(log.latency)) {
+           var rt = Number(log.latency);
+           var cond = log.data.condition;
+           if (rt < minRT) {
+             nExcludedFast++;
+           } else if (rt > maxRT) {
+             nExcludedSlow++;
+           } else if (badCondMap[cond]) {
+             badRTs.push(rt);
+           } else if (goodCondMap[cond]) {
+             goodRTs.push(rt);
+           }
+         }
        }
      }
+
+     var mean = function(arr) {
+       if (!arr.length) return '';
+       var sum = 0;
+       for (var j = 0; j < arr.length; j++) sum += arr[j];
+       return Math.round((sum / arr.length) * 100) / 100;
+     };
+     var sdCombined = function(a, b) {
+       var all = a.concat(b);
+       if (all.length < 2) return '';
+       var m = 0;
+       for (var j = 0; j < all.length; j++) m += all[j];
+       m = m / all.length;
+       var ss = 0;
+       for (j = 0; j < all.length; j++) ss += (all[j] - m) * (all[j] - m);
+       return Math.round(Math.sqrt(ss / (all.length - 1)) * 100) / 100;
+     };
+
      var toCsv = function(mat) { return mat.map(function(arr) { return arr.map(function(v) { var s = String(v); return (/[\n,"]/.test(s)) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(','); }).join('\n'); };
      var rawDataCsv = headers.join(',') + '\n' + toCsv(rows);
      var payload = {
@@ -907,7 +951,14 @@ define(['pipAPI','pipScorer','underscore'], function(APIConstructor, Scorer, _) 
        dScore: piCurrent.d != null ? piCurrent.d : '',
        feedback: piCurrent.feedback != null ? piCurrent.feedback : '',
        block2Condition: block2Condition != null ? block2Condition : '',
-       goodSide: piCurrent.goodSide != null ? piCurrent.goodSide : 'right'
+       goodSide: piCurrent.goodSide != null ? piCurrent.goodSide : 'right',
+       meanBad: mean(badRTs),
+       meanGood: mean(goodRTs),
+       sd: sdCombined(badRTs, goodRTs),
+       nBad: badRTs.length,
+       nGood: goodRTs.length,
+       nExcludedFast: nExcludedFast,
+       nExcludedSlow: nExcludedSlow
      };
      return JSON.stringify(payload);
    },
